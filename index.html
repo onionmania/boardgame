@@ -1235,7 +1235,14 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('
 /* ---------- 클라우드(파이어베이스) 공유 ----------
    FIREBASE_CONFIG 가 null 이면 지금처럼 이 기기 안에만 저장돼요.
    회원·게임·기록·비밀번호는 클라우드로 모든 기기가 같이 쓰고, 점수판(스컬킹·티츄·스파이폴)과 테마는 기기마다 따로 둬요. */
-const FIREBASE_CONFIG=null;
+const FIREBASE_CONFIG={
+  apiKey:"AIzaSyCzlD7CfDF9uxuRWp3UlLONo-8Hi-3RDIo",
+  authDomain:"boardgame-63c35.firebaseapp.com",
+  projectId:"boardgame-63c35",
+  storageBucket:"boardgame-63c35.firebasestorage.app",
+  messagingSenderId:"52489529184",
+  appId:"1:52489529184:web:95b6d6afa449c5f28ea005"
+};
 const FB_VER='10.14.1';
 const CCOLS=['members','games','records'];
 const CLD={cfg:FIREBASE_CONFIG,st:FIREBASE_CONFIG?'connecting':'off',msg:'',db:null,f:null,sh:{members:new Map(),games:new Map(),records:new Map(),set:''},got:{},attached:false,t:0};
