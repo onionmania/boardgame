@@ -54,8 +54,8 @@ header.top{display:flex;align-items:center;justify-content:space-between;margin:
 .mini{background:var(--soft);border:1px solid var(--soft);border-radius:14px;padding:10px 12px}
 .mini small{display:block;font-size:11px;color:var(--sub)}
 .mini b{font-size:16px;font-weight:700}
-.duo{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
-.duo .card{margin:0;padding:16px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.duo .card{margin:0;padding:14px 12px}
 .tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:4px 8px;border-radius:999px;background:rgba(255,125,147,.15);color:var(--pinkt);margin-bottom:10px}
 .tag.teal{background:rgba(69,214,196,.14);color:var(--tealt)}
 .duo .who{font-size:23px;font-weight:900;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -356,8 +356,6 @@ html[data-theme=brutal]{--bg:#f3ecdc;--glass:#fff;--glass2:#fff;--line:#111;--te
 [data-theme=brutal] .hero::after{display:none}
 [data-theme=brutal] .hero .big{background:none;color:#111;font-size:48px}
 [data-theme=brutal] .hero .label{color:#111;font-weight:700}
-[data-theme=brutal] .duo .card:first-child{background:#ff9fb4}
-[data-theme=brutal] .duo .card:last-child{background:#86ecd0}
 [data-theme=brutal] .duo .muted{color:#111}
 [data-theme=brutal] .tag{background:#111;color:#fff}
 [data-theme=brutal] .bar{background:#fff;border:2px solid #111;height:11px;border-radius:4px}
@@ -401,8 +399,6 @@ html[data-theme=material]{--bg:#fef7ff;--glass:#f7f2fa;--glass2:#ece6f0;--line:#
 [data-theme=material] .hero::after{display:none}
 [data-theme=material] .hero .big{background:none;color:#21005d;font-weight:700}
 [data-theme=material] .mini{background:rgba(255,255,255,.65);border:0;border-radius:12px}
-[data-theme=material] .duo .card:first-child{background:#ffd8e4}
-[data-theme=material] .duo .card:last-child{background:#e8def8}
 [data-theme=material] .tag{background:rgba(255,255,255,.7);color:#31111d;border-radius:8px}
 [data-theme=material] .iconbtn{background:none;border:0;border-radius:50%}
 [data-theme=material] .btn{border-radius:20px;background:none;border:1px solid #79747e;color:#6750a4}
@@ -470,7 +466,6 @@ html[data-theme=typo]{--bg:#f6f4ef;--glass:transparent;--glass2:transparent;--li
 [data-theme=typo] .mini small{letter-spacing:.06em}
 [data-theme=typo] .mini b{font-family:'Noto Serif KR',serif;font-size:18px}
 [data-theme=typo] .duo .card,[data-theme=typo] .split .card{padding:12px 0}
-[data-theme=typo] .duo .card{border-top:3px solid #141414}
 [data-theme=typo] .tag{background:none;color:#e0301e;padding:0;letter-spacing:.06em}
 [data-theme=typo] .duo .who{font-size:28px;letter-spacing:-.04em}
 [data-theme=typo] .cr .no.gold{color:#e0301e}
@@ -699,8 +694,6 @@ html[data-theme=retro] body{background-color:#150a30;background-image:linear-gra
 [data-theme=retro] .hero{background:#34207a}
 [data-theme=retro] .hero::after{display:none}
 [data-theme=retro] .hero .big{background:none;-webkit-text-fill-color:#ffd23f;color:#ffd23f;text-shadow:0 3px 0 #05010f;font-size:46px}
-[data-theme=retro] .duo .card:first-child{background:#3b1560}
-[data-theme=retro] .duo .card:last-child{background:#0f3552}
 [data-theme=retro] .tag{background:#ffd23f;color:#1a1033;border-radius:2px}
 [data-theme=retro] .bar{background:#1b0e3f;border:2px solid #7a5cff;height:12px;border-radius:2px}
 [data-theme=retro] .bar>i{background:repeating-linear-gradient(90deg,#3df5ff 0 8px,#2ab9c4 8px 10px);border-radius:0}
@@ -1158,6 +1151,11 @@ html[data-theme] .tchd .chip.ic{width:36px;height:36px;border-radius:50%;padding
 [data-theme=retro] .vadd{background:#ffd23f;color:#1a1033;border:2px solid #fff3b0}
 .sheet{overscroll-behavior:contain}
 html:has(#sw.show){overscroll-behavior-y:contain}
+.chip.cin{gap:2px;cursor:text}
+.chip.cin input{width:100%;min-width:0;border:0;background:transparent;color:inherit;font:inherit;text-align:right;outline:none;padding:0;-moz-appearance:textfield}
+.chip.cin input::-webkit-outer-spin-button,.chip.cin input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.chip.cin input::placeholder{opacity:.55}
+.chip.cin span{flex:none}
 .chips[style*=repeat] .chip{justify-content:center;padding:8px 4px}
 .chips.fitc{display:grid;grid-template-columns:repeat(var(--c,3),minmax(0,1fr))}
 .chips.fitc .chip{min-width:0;overflow:hidden;white-space:nowrap;justify-content:center}
@@ -1487,11 +1485,11 @@ VIEWS.dash=()=>{
   S.records.forEach(r=>{const mo=months.find(x=>r.date.startsWith(x.k));if(mo)mo.v+=recTotal(r)});
   const maxMo=Math.max(1,...months.map(x=>x.v));
   const recent=[...S.records].sort((a,b)=>b.date.localeCompare(a.date)||b.at-a.at).slice(0,5);
-  const top=ranking[0],topG=gr[0];
+  const topG=gr[0],hot=Object.entries(st.pg).map(([id,v])=>({g:game(id),plays:v.plays})).sort((a,b)=>b.plays-a.plays||a.g.name.localeCompare(b.g.name,'ko'))[0];
   const nRec=S.records.length;
   const att=activeMembers().map(m=>({m,n:st.part[m.id]||0})).sort((a,b)=>b.n-a.n||a.m.name.localeCompare(b.m.name,'ko'));
   const MINP=3;
-  const pro=activeMembers().map(m=>{const n=st.part[m.id]||0,f=st.cntF[m.id]||0;return {m,n,f,p:n?f/n:1}}).filter(x=>x.n>=MINP).sort((a,b)=>a.p-b.p||b.n-a.n||a.m.name.localeCompare(b.m.name,'ko')).slice(0,5);
+  const pro=activeMembers().map(m=>{const n=st.part[m.id]||0,f=st.cntF[m.id]||0;return {m,n,f,p:n?1-f/n:0}}).filter(x=>x.n>=MINP).sort((a,b)=>b.p-a.p||b.n-a.n||a.m.name.localeCompare(b.m.name,'ko')).slice(0,5);
   return `
   <div class="dg"><div class="d-hero"><div class="card hero">
     <div class="label">지금까지 모인 벌금</div>
@@ -1503,29 +1501,29 @@ VIEWS.dash=()=>{
     </div>
   </div></div>
   <div class="d-duo"><div class="duo">
-    <div class="card"><div class="tag">💸 벌금왕</div><div class="king">${top&&top.amt?bigav(top.m):''}<div class="kt"><div class="who">${top&&top.amt?esc(top.m.name):'-'}</div><div class="muted" style="font-size:16px">${top&&top.amt?won(top.amt):'아직 없어요'}</div></div></div></div>
-    <div class="card"><div class="tag teal">🎯 벌금 제조기</div><div class="king">${topG&&topG.fine?cover(topG.g,'bcv'):''}<div class="kt"><div class="who">${topG&&topG.fine?esc(topG.g.name):'-'}</div><div class="muted" style="font-size:16px">${topG&&topG.fine?won(topG.fine):'아직 없어요'}</div></div></div></div>
+    <div class="card"><h3>🎲 인기 게임</h3>${hot?`<div class="cr"><div class="top">${cover(hot.g,'thumb')}<span class="nm">${esc(hot.g.name)}</span><span class="amt">${hot.plays}판</span></div></div>`:'<div class="empty">기록이 없어요</div>'}</div>
+    <div class="card"><h3>🎯 벌금 제조기</h3>${topG&&topG.fine?`<div class="cr"><div class="top">${cover(topG.g,'thumb')}<span class="nm">${esc(topG.g.name)}</span><span class="amt">${won(topG.fine)}</span></div></div>`:'<div class="empty">기록이 없어요</div>'}</div>
   </div></div>
   <div class="d-split"><div class="split">
-    <div class="card"><h3>회원별 벌금</h3>
+    <div class="card"><h3>🙋 참석률</h3>
+      ${nRec&&att.length?att.map((x,i)=>`<div class="cr"><div class="top"><span class="no">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.n/nRec*100)}%</span></div><div class="bar"><i style="width:${x.n/nRec*100}%"></i></div></div>`).join(''):'<div class="empty">기록이 쌓이면 보여요</div>'}
+    </div>
+    <div class="card"><h3>🛡️ 벌금 회피율</h3>
+      ${pro.length?pro.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.p*100)}%</span></div><div class="bar"><i style="width:${Math.max(3,x.p*100)}%"></i></div></div>`).join('')+`<p class="rcap" style="margin:10px 0 0">참여한 판 중 벌금을 내지 않은 비율이에요 (${MINP}판 이상 참여한 회원)</p>`:`<div class="empty">${MINP}판 이상 참여하면 나와요</div>`}
+    </div>
+  </div></div>
+  <div class="d-split"><div class="split">
+    <div class="card"><h3>👥 회원별 벌금</h3>
       ${ranking.length?ranking.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3&&x.amt?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${won(x.amt)}</span></div><div class="bar pink"><i style="width:${x.amt/maxM*100}%"></i></div></div>`).join(''):'<div class="empty">회원이 없어요</div>'}
     </div>
-    <div class="card"><h3>게임별 벌금</h3>
+    <div class="card"><h3>🎮 게임별 벌금</h3>
       ${gr.length?gr.slice(0,ranking.length||8).map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3&&x.fine?'gold':''}">${i+1}</span>${cover(x.g,'thumb')}<span class="nm">${esc(x.g.name)}</span><span class="amt">${won(x.fine)}</span></div><div class="bar"><i style="width:${x.fine/maxG*100}%"></i></div></div>`).join(''):'<div class="empty">기록이 없어요</div>'}
     </div>
   </div></div>
-  <div class="d-split"><div class="split">
-    <div class="card"><h3>참석률</h3>
-      ${nRec&&att.length?att.map((x,i)=>`<div class="cr"><div class="top"><span class="no">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.n/nRec*100)}%</span></div><div class="bar"><i style="width:${x.n/nRec*100}%"></i></div></div>`).join(''):'<div class="empty">기록이 쌓이면 보여요</div>'}
-    </div>
-    <div class="card"><h3>🏆 게임 고수</h3>
-      ${pro.length?pro.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.p*100)}%</span></div><div class="bar"><i style="width:${Math.max(3,x.p*100)}%"></i></div></div>`).join('')+`<p class="rcap" style="margin:10px 0 0">벌금을 낸 판의 비율이 낮은 순이에요 (${MINP}판 이상 참여한 회원)</p>`:`<div class="empty">${MINP}판 이상 참여하면 나와요</div>`}
-    </div>
-  </div></div>
-  <div class="d-side"><div class="card"><h3>월별 적립</h3>
+  <div class="d-side"><div class="card"><h3>📅 월별 적립</h3>
     <div class="months">${months.map((x,i)=>`<div class="col ${i===5?'now':''}"><em>${x.v?(x.v/1000).toLocaleString()+'천':''}</em><div class="pill" style="height:${x.v/maxMo*80}%"></div><small>${x.l}</small></div>`).join('')}</div>
   </div>
-  <div class="card"><h3>최근 기록 <button class="more" onclick="openRecords()">전체 보기 ›</button></h3>
+  <div class="card"><h3>🧾 최근 기록 <button class="more" onclick="openRecords()">전체 보기 ›</button></h3>
     ${recent.length?recent.map(r=>recRow(r)).join(''):'<div class="empty">아직 기록이 없어요</div>'}
   </div></div></div>`;
 };
@@ -1915,9 +1913,11 @@ function skToFine(){
 
 
 /* 티츄 점수판 (4명, 2대2) */
-let tcA=[],tcB=[],tcLimit=1000,tcCus=false;
-function tcCustom(){tcCus=true;drawTC();const e=$('#tclim');if(e){e.focus();e.select()}}
-function tcLim(v){const n=Math.round(+v);if(n>=50&&n<=99999)tcLimit=n}
+let tcA=[],tcB=[],tcLimit=1000,tcCus=false,tcCusTxt='';
+const tcNum=v=>{const n=Math.round(+v);return v!==''&&n>=50&&n<=99999?n:0};
+const tcGoOk=()=>tcA.length===2&&tcB.length===2&&(!tcCus||tcNum(tcCusTxt)>0);
+function tcCustom(){tcCus=true;tcCusTxt='';drawTC();const e=$('#tclim');if(e)e.focus()}
+function tcLim(v){tcCusTxt=v;const n=tcNum(v);if(n)tcLimit=n;const b=$('#tcgo');if(b)b.disabled=!tcGoOk()}
 let TI={type:'card',a:50,calls:{}};
 function openTC(){openSheet('<div id="tc"></div>');drawTC()}
 const tcName=t=>t.map(id=>mem(id).name).join('·');
@@ -1938,9 +1938,8 @@ function drawTC(){
     <div class="sec">B팀 (${tcB.length}/2)</div>
     <div class="chips fitc">${ms.filter(m=>!tcA.includes(m.id)).map(m=>`<button class="chip ${tcB.includes(m.id)?'on':''}" onclick="tcPick('b','${m.id}')">${av(m,1)}${esc(m.name)}</button>`).join('')}</div>
     <div class="sec">목표 점수</div>
-    <div class="chips" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr))">${[500,700,1000].map(v=>`<button class="chip plain ${!tcCus&&tcLimit===v?'on':''}" onclick="tcLimit=${v};tcCus=false;drawTC()">${v}점</button>`).join('')}<button class="chip plain ${tcCus||![500,700,1000].includes(tcLimit)?'on':''}" onclick="tcCustom()">커스텀</button></div>
-    ${tcCus||![500,700,1000].includes(tcLimit)?`<div class="mrow" style="margin-top:10px"><input class="inp" id="tclim" type="number" inputmode="numeric" min="50" max="99999" step="50" value="${tcLimit}" oninput="tcLim(this.value)" aria-label="목표 점수"><span class="dim" style="flex:none">점</span></div>`:''}
-    <div class="btns" style="margin-top:20px"><button class="btn pri" id="tcgo" ${tcA.length===2&&tcB.length===2?'':'disabled'} onclick="tcStart()">시작</button></div>`;fitPk();return}
+    <div class="chips" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr))">${[500,700,1000].map(v=>`<button class="chip plain ${!tcCus&&tcLimit===v?'on':''}" onclick="tcLimit=${v};tcCus=false;drawTC()">${v}점</button>`).join('')}${tcCus?`<label class="chip plain on cin"><input id="tclim" type="number" inputmode="numeric" min="50" max="99999" placeholder="점수" value="${esc(tcCusTxt)}" oninput="tcLim(this.value)" aria-label="목표 점수"><span>점</span></label>`:`<button class="chip plain" onclick="tcCustom()">커스텀</button>`}</div>
+    <div class="btns" style="margin-top:20px"><button class="btn pri" id="tcgo" ${tcGoOk()?'':'disabled'} onclick="tcStart()">시작</button></div>`;fitPk();return}
   const t=S.tc,tot=tcTot(),w=tcWinner(),pv=tcCalc(),n=t.rounds.length+1;
   el.className='game';
   const pct=v=>Math.max(0,Math.min(100,v/t.limit*100));
