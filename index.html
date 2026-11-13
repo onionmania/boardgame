@@ -539,9 +539,9 @@ html[data-theme=typo]{--bg:#f6f4ef;--glass:transparent;--glass2:transparent;--li
   .d-hero,.d-duo{align-self:stretch}
   .hero .big{font-size:52px}
   /* 벌금기록: 왼쪽(사람·벌금) / 오른쪽(게임) */
-  .rg{display:grid;grid-template-columns:1fr 1.25fr;grid-template-areas:"p g" "w g" "f g";gap:16px;align-items:start}
+  .rg{display:grid;grid-template-columns:1fr 1.25fr;grid-template-areas:"p g" "f g";gap:16px;align-items:start}
   .rg .card{margin:0}
-  .c-p{grid-area:p}.c-g{grid-area:g}.c-f{grid-area:f}.c-w{grid-area:w}
+  .c-p{grid-area:p}.c-g{grid-area:g}.c-f{grid-area:f}
   .ggrid{grid-template-columns:repeat(var(--cols-d,4),1fr)}
   .spacer{display:none}
   .savebar{position:sticky;left:auto;transform:none;bottom:24px;width:100%;max-width:none;margin-top:16px}
@@ -1151,21 +1151,8 @@ html[data-theme] .tchd .chip.ic{width:36px;height:36px;border-radius:50%;padding
 [data-theme=retro] .vadd{background:#ffd23f;color:#1a1033;border:2px solid #fff3b0}
 .sheet{overscroll-behavior:contain}
 html:has(#sw.show){overscroll-behavior-y:contain}
-.tmlist{display:flex;flex-direction:column;gap:6px}
-.tmrow{display:flex;align-items:center;gap:8px}
-.tmrow .nm{flex:1;min-width:0;font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tmb{display:flex;gap:6px}
-.tmb button{min-width:58px;height:34px;padding:0 10px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-size:13px;font-weight:700}
-.tmb button.on{background:var(--a1);color:#fff;border-color:transparent}
-[data-theme=brutal] .tmb button{border:2px solid #111;background:#fff}
-[data-theme=brutal] .tmb button.on{background:#ffd23f;color:#111}
-[data-theme=material] .tmb button{border:1px solid #79747e;background:none;color:#49454f}
-[data-theme=material] .tmb button.on{background:#e8def8;color:#1d192b;border-color:#e8def8}
-[data-theme=typo] .tmb button{border:1.5px solid #141414;background:none;border-radius:0}
-[data-theme=typo] .tmb button.on{background:#141414;color:#f6f4ef}
-[data-theme=retro] .tmb button{border:2px solid #7a5cff;border-radius:3px;background:#34207a;color:#f6f1ff}
-[data-theme=retro] .tmb button.on{background:#3df5ff;color:#150a30;border-color:#3df5ff}
-.tmwin button.on{background:var(--a1);color:#fff}
+.chips.tmpre{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.chips.tmpre .chip{justify-content:center;padding:0 4px;height:44px}
 .chip.cin{gap:2px;cursor:text}
 .chip.cin input{width:100%;min-width:0;border:0;background:transparent;color:inherit;font:inherit;text-align:right;outline:none;padding:0;-moz-appearance:textfield}
 .chip.cin input::-webkit-outer-spin-button,.chip.cin input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
@@ -1246,13 +1233,15 @@ const GCLASS={'달무티':['개인전',['카드','클라이밍']],'렉시오':['
 function classify(g){if(g.format)return;const c=GCLASS[(g.name||'').replace(/\s/g,'')];if(c){g.format=c[0];g.tags=[...c[1]];g.theme=''}}
 function gchips(g){const f=g.format?`<span class="fm">${esc(g.format)}</span>`:'';const t=(g.tags||[]).filter(x=>GTAGS.includes(x)).map(x=>`<span>${esc(x)}</span>`).join('');return f+t}
 const EXTRA_GAMES=[['레지스탕스 아발론','⚔️',5,10,'숨은 팀·추리',7.4,'선과 악으로 나뉘어 원정 성공 여부를 두고 서로를 의심해요',215],['한밤의 늑대인간','🐺',3,10,'숨은 역할·추리',7.0,'밤사이 바뀐 역할을 추리해 늑대인간을 찾아내는 짧은 게임',25],['뱅!','🤠',3,7,'서부·숨은 역할',6.6,'보안관과 무법자 역할을 숨기고 총격전을 벌이는 카드 게임',20],['스플렌더','💎',2,4,'보석·엔진 빌딩',7.4,'보석 토큰으로 카드를 사 점수를 쌓는 가벼운 경영 게임',330],['우노','🃏',2,10,'카드',0,'같은 색이나 숫자의 카드를 내며 손패를 먼저 털어 내는 카드 게임',0]];
+const TEAMRE=/아발론|^티츄$|코드네임/;
 function seed(){
   const members=[];
   const games=GAMES.map((g,i)=>({id:'g'+i,name:g[0],emoji:g[1],min:g[2],max:g[3],theme:g[4],rating:g[5],desc:g[6],hue:g[7],img:''}));
   const records=[];
   EXTRA_GAMES.forEach((g,i)=>games.push({id:'gx'+i,name:g[0],emoji:g[1],min:g[2],max:g[3],theme:g[4],rating:g[5],desc:g[6],hue:g[7],img:''}));
   games.forEach(classify);
-  return {members,games,records,pin:'1234',sk:null,extraV1:true,tagV1:true,tagV2:true,tagV3:true};
+  games.forEach(g=>{if(TEAMRE.test(g.name.replace(/\s/g,'')))g.team=true});
+  return {members,games,records,pin:'1234',sk:null,extraV1:true,tagV1:true,tagV2:true,tagV3:true,teamV1:true};
 }
 
 /* ---------- 저장 (지금은 이 기기 안에만, 나중에 파이어베이스로 교체) ---------- */
@@ -1271,6 +1260,7 @@ function load(){try{const t=localStorage.getItem(KEY);if(t){S=JSON.parse(t);
   if(!S.tagV1){S.tagV1=true;S.games.forEach(classify);try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
   if(!S.tagV2){S.tagV2=true;S.games.forEach(g=>{if(g.tags)g.tags=g.tags.map(t=>t==='말·단어'?'단어·소통':t==='퍼즐·배치'?'타일·배치':t)});try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
   if(!S.tagV3){S.tagV3=true;tagFix();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+  if(!S.teamV1){S.teamV1=true;S.games.forEach(g=>{if(TEAMRE.test((g.name||'').replace(/\s/g,'')))g.team=true});try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
   return}}catch(e){}S=seed()}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('이 기기에 저장 공간이 부족해요')}cloudPush()}
 
@@ -1346,7 +1336,7 @@ function cloudApplySet(snap){
   CLD.sh.set=canon(cloudSet());CLD.got.set=true;cloudAfter(ch);
 }
 function cloudAfter(ch){
-  if(CCOLS.every(c=>CLD.got[c])&&CLD.got.set&&CLD.st!=='on'){CLD.st='on';cloudStatusUpd();doPush()}
+  if(CCOLS.every(c=>CLD.got[c])&&CLD.got.set&&CLD.st!=='on'){CLD.st='on';cloudStatusUpd();S.games.forEach(g=>{if(g.team===undefined&&TEAMRE.test((g.name||'').replace(/\s/g,'')))g.team=true});doPush()}
   if(!ch)return;
   D.players=D.players.filter(id=>S.members.some(m=>m.id===id));
   Object.keys(D.fines).forEach(id=>{if(!S.members.some(m=>m.id===id))delete D.fines[id]});
@@ -1500,14 +1490,19 @@ VIEWS.dash=()=>{
   S.records.forEach(r=>{const mo=months.find(x=>r.date.startsWith(x.k));if(mo)mo.v+=recTotal(r)});
   const maxMo=Math.max(1,...months.map(x=>x.v));
   const recent=[...S.records].sort((a,b)=>b.date.localeCompare(a.date)||b.at-a.at).slice(0,5);
+  const lastP={};S.records.forEach(r=>{if(!lastP[r.gameId]||r.date>lastP[r.gameId])lastP[r.gameId]=r.date});
+  const idle=Object.entries(lastP).filter(([id])=>S.games.some(g=>g.id===id)).map(([id,d])=>({g:game(id),d,days:Math.max(0,Math.round((new Date(todayStr()+'T00:00:00')-new Date(d+'T00:00:00'))/864e5))})).sort((a,b)=>b.days-a.days||a.g.name.localeCompare(b.g.name,'ko'))[0];
   const topG=gr[0],hot=Object.entries(st.pg).map(([id,v])=>({g:game(id),plays:v.plays})).sort((a,b)=>b.plays-a.plays||a.g.name.localeCompare(b.g.name,'ko'))[0];
   const nRec=S.records.length;
   /* 연속 참석: 기록이 있는 날(모임)을 기준으로, 연달아 나온 최대 횟수 */
   const days=[...new Set(S.records.map(r=>r.date))].sort();
   const stk=activeMembers().map(m=>{let best=0,run=0;days.forEach(d=>{if(S.records.some(r=>r.date===d&&r.players.includes(m.id))){run++;if(run>best)best=run}else run=0});return {m,best,now:run}}).filter(x=>x.best>=2).sort((a,b)=>b.best-a.best||b.now-a.now||a.m.name.localeCompare(b.m.name,'ko')).slice(0,3);
-  /* 단짝 승률: 팀전 기록에서 같은 팀이었던 두 사람이 게임별로 몇 번 이겼는지 */
+  /* 단짝 승률: 팀 게임에서 벌금 낸 사람들이 진 팀, 나머지가 이긴 팀. 같은 팀이었던 두 사람이 게임별로 몇 번 이겼는지 */
   const pairs={};
-  S.records.forEach(r=>{if(!r.ta||!r.tb||!r.win)return;[['a',r.ta],['b',r.tb]].forEach(([k,t])=>{for(let i=0;i<t.length;i++)for(let j=i+1;j<t.length;j++){const ids=[t[i],t[j]].sort(),key=r.gameId+'|'+ids.join('|');const o=pairs[key]||(pairs[key]={gid:r.gameId,ids,n:0,w:0});o.n++;if(r.win===k)o.w++}})});
+  S.records.forEach(r=>{const g=game(r.gameId);if(!g||!g.team||!r.fines.length)return;
+    const lose=r.fines.map(f=>f.memberId).filter(id=>r.players.includes(id)),win=r.players.filter(id=>!lose.includes(id));
+    if(!win.length||!lose.length)return;
+    [[win,1],[lose,0]].forEach(([t,w])=>{for(let i=0;i<t.length;i++)for(let j=i+1;j<t.length;j++){const ids=[t[i],t[j]].sort(),key=r.gameId+'|'+ids.join('|');const o=pairs[key]||(pairs[key]={gid:r.gameId,ids,n:0,w:0});o.n++;o.w+=w}})});
   const pr=Object.values(pairs).filter(x=>x.w>0).sort((a,b)=>b.w-a.w||b.w/b.n-a.w/a.n||a.n-b.n).slice(0,3);
   const att=activeMembers().map(m=>({m,n:st.part[m.id]||0})).sort((a,b)=>b.n-a.n||a.m.name.localeCompare(b.m.name,'ko'));
   const MINP=3;
@@ -1524,7 +1519,7 @@ VIEWS.dash=()=>{
   </div></div>
   <div class="d-duo"><div class="duo">
     <div class="card"><h3>🎲 인기 게임</h3>${hot?`<div class="cr"><div class="top">${cover(hot.g,'thumb')}<span class="nm">${esc(hot.g.name)}</span><span class="amt">${hot.plays}판</span></div></div>`:'<div class="empty">기록이 없어요</div>'}</div>
-    <div class="card"><h3>🎯 벌금 제조기</h3>${topG&&topG.fine?`<div class="cr"><div class="top">${cover(topG.g,'thumb')}<span class="nm">${esc(topG.g.name)}</span><span class="amt">${won(topG.fine)}</span></div></div>`:'<div class="empty">기록이 없어요</div>'}</div>
+    <div class="card"><h3>💤 쉬고 있는 게임</h3>${idle?`<div class="cr"><div class="top">${cover(idle.g,'thumb')}<span class="nm">${esc(idle.g.name)}</span><span class="amt">${idle.days?idle.days+'일째':'오늘'}</span></div></div>`:'<div class="empty">기록이 없어요</div>'}</div>
   </div></div>
   <div class="d-split"><div class="split">
     <div class="card"><h3>🙋 참석률</h3>
@@ -1539,7 +1534,7 @@ VIEWS.dash=()=>{
       ${pro.length?pro.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.p*100)}%</span></div><div class="bar"><i style="width:${Math.max(3,x.p*100)}%"></i></div></div>`).join('')+`<p class="rcap" style="margin:10px 0 0">참여한 판 중 벌금을 내지 않은 비율이에요 (${MINP}판 이상 참여한 회원)</p>`:`<div class="empty">${MINP}판 이상 참여하면 나와요</div>`}
     </div>
     <div class="card"><h3>🤝 단짝 승률</h3>
-      ${pr.length?pr.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span><span class="nm"><b style="font-weight:700">${x.ids.map(id=>esc(mem(id).name)).join('·')}</b><small class="dim" style="display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis">${esc(game(x.gid).name)}</small></span><span class="amt" style="text-align:right">${Math.round(x.w/x.n*100)}%<small class="dim" style="display:block;font-size:11px;font-weight:500">${x.w}승 ${x.n}판</small></span></div></div>`).join(''):'<div class="empty">팀전 결과를 기록하면 나와요</div>'}
+      ${pr.length?pr.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span><span class="nm"><b style="font-weight:700">${x.ids.map(id=>esc(mem(id).name)).join('·')}</b><small class="dim" style="display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis">${esc(game(x.gid).name)}</small></span><span class="amt" style="text-align:right">${Math.round(x.w/x.n*100)}%<small class="dim" style="display:block;font-size:11px;font-weight:500">${x.w}승 ${x.n}판</small></span></div></div>`).join(''):'<div class="empty">팀 게임 기록이 쌓이면 나와요</div>'}
     </div>
   </div></div>
   <div class="d-split"><div class="split">
@@ -1552,9 +1547,6 @@ VIEWS.dash=()=>{
   </div></div>
   <div class="d-side"><div class="card"><h3>📅 월별 적립</h3>
     <div class="months">${months.map((x,i)=>`<div class="col ${i===5?'now':''}"><em>${x.v?(x.v/1000).toLocaleString()+'천':''}</em><div class="pill" style="height:${x.v/maxMo*80}%"></div><small>${x.l}</small></div>`).join('')}</div>
-  </div>
-  <div class="card"><h3>🧾 최근 기록 <button class="more" onclick="openRecords()">전체 보기 ›</button></h3>
-    ${recent.length?recent.map(r=>recRow(r)).join(''):'<div class="empty">아직 기록이 없어요</div>'}
   </div></div></div>`;
 };
 function recRow(r,withDel){
@@ -1564,7 +1556,7 @@ function recRow(r,withDel){
 }
 
 /* ---------- 벌금 기록 ---------- */
-let D={date:todayStr(),players:[],gameId:null,fines:{},ta:[],tb:[],win:''};
+let D={date:todayStr(),players:[],gameId:null,fines:{}};
 /* 게임 고르기 보기 방식(이 기기에 기억): emoji=납작한 이모지 보기, cover=정사각형 표지 보기 / 3열·4열 */
 let GV={mode:'emoji',cols:3};
 try{const v=JSON.parse(localStorage.getItem('bgclub-gview')||'null');if(v&&v.mode&&v.cols){GV=v;if(GV.cols===2)GV.cols=3}}catch(e){}
@@ -1574,8 +1566,7 @@ VIEWS.record=()=>{
   const gs=[...S.games].sort((a,b)=>{const fa=!n||(a.min<=n&&a.max>=n),fb=!n||(b.min<=n&&b.max>=n);return (fb-fa)||a.name.localeCompare(b.name,'ko')});
   const fineSum=Object.values(D.fines).reduce((a,b)=>a+b,0);
   const g=D.gameId&&game(D.gameId);
-  const isT=!!(g&&g.format==='팀전');
-  D.ta=D.ta.filter(id=>D.players.includes(id));D.tb=D.tb.filter(id=>D.players.includes(id));
+  const recent=[...S.records].sort((a,b)=>b.date.localeCompare(a.date)||b.at-a.at).slice(0,5);
   return `<div class="rg">
   <div class="card c-p">
     <div class="daterow"><div class="step ${n?'done':''}" style="margin:0"><div class="n">1</div><b>누가 했나요?</b></div><button class="date datebtn" onclick="openCal()">${dlabel(D.date)}</button></div>
@@ -1588,37 +1579,30 @@ VIEWS.record=()=>{
       ?`<div class="cv" style="--h:${x.hue}"><span class="em">${emo(x.emoji)}</span><span class="gn ${x.name.length>9?'l2':x.name.length>6?'l1':''}">${esc(x.name)}</span></div>`
       :`${cover(x)}<div class="nm">${esc(x.name)}</div>`}</button>`).join('')}</div>
   </div>
-  ${isT?`<div class="card c-w">
-    <div class="step ${D.win?'done':''}"><div class="n">3</div><b>팀과 승리 <span class="dim" style="font-weight:400">· 선택</span></b></div>
-    ${n?`<div class="tmlist">${D.players.map(id=>{const m=mem(id);return `<div class="tmrow">${pdot(m)}<span class="nm">${esc(m.name)}</span><span class="tmb"><button class="${D.ta.includes(id)?'on':''}" onclick="setTeam('${id}','a')">A팀</button><button class="${D.tb.includes(id)?'on':''}" onclick="setTeam('${id}','b')">B팀</button></span></div>`}).join('')}</div>
-    <div class="seg tmwin" style="margin:12px 0 0"><button class="${D.win==='a'?'on':''}" onclick="setWin('a')">🏆 A팀 승</button><button class="${D.win==='b'?'on':''}" onclick="setWin('b')">🏆 B팀 승</button></div>
-    <p class="rcap" style="margin:8px 0 0">팀을 나누고 이긴 팀을 고르면 대시보드 '단짝 승률'에 반영돼요. 건너뛰어도 돼요.</p>`:'<div class="empty" style="padding:8px 0">먼저 1번에서 플레이한 사람을 골라 주세요</div>'}
-  </div>`:''}
   <div class="card c-f">
-    <div class="step ${Object.keys(D.fines).length?'done':''}"><div class="n">${isT?4:3}</div><b>벌금은 누가?</b></div>
+    <div class="step ${Object.keys(D.fines).length?'done':''}"><div class="n">3</div><b>벌금은 누가?</b></div>
     ${n?`<div class="pgrid">${D.players.map(id=>{const m=mem(id);return `<button class="pc fine ${D.fines[id]!=null?'on':''}" onclick="toggleFine('${id}')">${pdot(m)}<span>${esc(m.name)}</span></button>`}).join('')}</div>
     ${Object.keys(D.fines).length?`<div class="fines" style="margin-top:12px">${Object.entries(D.fines).map(([id,a])=>`<div class="row">${av(mem(id),1)}<div class="nm">${esc(mem(id).name)}</div><div class="stepper"><button onclick="adjFine('${id}',-500)">−</button><span>${won(a)}</span><button onclick="adjFine('${id}',500)">+</button></div></div>`).join('')}</div>`:''}`
     :'<div class="empty" style="padding:8px 0">먼저 1번에서 플레이한 사람을 골라 주세요</div>'}
   </div>
-  </div><div class="spacer" style="height:80px"></div>
+  </div>
+  <div class="card" style="margin-top:14px"><h3>🧾 최근 기록 <button class="more" onclick="openRecords()">전체 보기 ›</button></h3>
+    ${recent.length?recent.map(r=>recRow(r)).join(''):'<div class="empty">아직 기록이 없어요</div>'}
+  </div>
+  <div class="spacer" style="height:80px"></div>
   ${n?`<div class="savebar${sbNew?' enter':''}"><div class="info"><b>${fineSum?won(fineSum):'벌금 없음'}</b>${n}명${g?' · '+esc(g.name):' · 게임 미선택'}</div><button class="btn pri" ${n&&D.gameId?'':'disabled'} onclick="saveRecord()">저장</button></div>`:''}`;
 };
-function togglePlayer(id){const i=D.players.indexOf(id);if(i>=0){D.players.splice(i,1);delete D.fines[id];D.ta=D.ta.filter(x=>x!==id);D.tb=D.tb.filter(x=>x!==id)}else D.players.push(id);render()}
-function setTeam(id,t){const A=t==='a',cur=(A?D.ta:D.tb).includes(id);D.ta=D.ta.filter(x=>x!==id);D.tb=D.tb.filter(x=>x!==id);if(!cur)(A?D.ta:D.tb).push(id);render()}
-function setWin(w){D.win=D.win===w?'':w;render()}
-function allPlayers(on){if(on)D.players=activeMembers().map(m=>m.id);else{D.players=[];D.fines={};D.ta=[];D.tb=[];D.win=''}render()}
+function togglePlayer(id){const i=D.players.indexOf(id);if(i>=0){D.players.splice(i,1);delete D.fines[id]}else D.players.push(id);render()}
+function allPlayers(on){if(on)D.players=activeMembers().map(m=>m.id);else{D.players=[];D.fines={}}render()}
 function pickGame(id){D.gameId=D.gameId===id?null:id;render()}
 function toggleFine(id){if(D.fines[id]!=null)delete D.fines[id];else D.fines[id]=1000;render()}
 function adjFine(id,d){D.fines[id]=Math.max(500,D.fines[id]+d);render()}
 function saveRecord(){
   if(!D.players.length||!D.gameId)return;
-  const rec={id:uid(),date:D.date,players:[...D.players],gameId:D.gameId,fines:Object.entries(D.fines).map(([memberId,amount])=>({memberId,amount})),at:Date.now()};
-  const gm=game(D.gameId),ta=D.ta.filter(id=>D.players.includes(id)),tb=D.tb.filter(id=>D.players.includes(id));
-  if(gm&&gm.format==='팀전'&&(D.win==='a'||D.win==='b')&&ta.length&&tb.length){rec.ta=ta;rec.tb=tb;rec.win=D.win}
-  S.records.push(rec);
+  S.records.push({id:uid(),date:D.date,players:[...D.players],gameId:D.gameId,fines:Object.entries(D.fines).map(([memberId,amount])=>({memberId,amount})),at:Date.now()});
   save();
   const t=Object.values(D.fines).reduce((a,b)=>a+b,0);
-  D.gameId=null;D.fines={};D.ta=[];D.tb=[];D.win='';render();scrollTo({top:0,behavior:'smooth'});
+  D.gameId=null;D.fines={};render();scrollTo({top:0,behavior:'smooth'});
   toast(`저장했어요${t?' · '+won(t):''}`);
 }
 
@@ -1757,19 +1741,21 @@ function drawEmo(){const e=$('#empick');if(!e)return;
   e.innerHTML=`<div class="emtabs">${EMOJI_CATS.map((c,i)=>`<button type="button" class="emtab ${i===emoCat?'on':''}" onclick="emoCat=${i};drawEmo()">${c[0]}</button>`).join('')}</div><div class="emgrid">${EMOJI_CATS[emoCat][1].split(' ').map(x=>`<button type="button" class="emc" onclick="pickEmo('${x}')">${x}</button>`).join('')}</div>`}
 function pickEmo(x){FI.emoji=x;const b=$('#femo');if(b)b.textContent=x;$('#empick').style.display='none';if(!FI.img)drawCrop()}
 
+function drawTeam(){const e=$('#fteam');if(e){e.classList.toggle('on',!!FI.team);e.textContent=FI.team?'단짝 승률에 반영':'단짝 승률에 반영 안 함'}}
 function drawFmt(){const e=$('#ffmt');if(e)e.innerHTML=GFORMS.map(f=>`<button type="button" class="${FI.format===f?'on':''}" onclick="FI.format='${f}';drawFmt()">${f}</button>`).join('')}
 function drawTags(){const e=$('#ftags');if(e)e.innerHTML=GTAGS.map(t=>`<button type="button" class="tgc ${FI.tags.includes(t)?'on':''}" onclick="togTag('${t}')">${t}</button>`).join('')}
 function togTag(t){const i=FI.tags.indexOf(t);if(i>=0)FI.tags.splice(i,1);else{if(FI.tags.length>=2){toast('장르는 최대 2개까지 고를 수 있어요');return}FI.tags.push(t)}drawTags()}
 function toggleLink(){const r=$('#linkrow');if(!r)return;const show=r.style.display==='none';r.style.display=show?'flex':'none';if(show)setTimeout(()=>$('#flink').focus(),50)}
 function gameForm(id){
   const g=id?game(id):{name:'',emoji:'🎲',min:2,max:5,theme:'',rating:'',desc:'',hue:Math.floor(Math.random()*360),img:''};
-  FI={img:g.img||'',pos:g.pos?{...g.pos}:null,emoji:g.emoji||'🎲',hue:g.hue,format:g.format||'개인전',tags:[...(g.tags||[])]};pnA=Math.max(1,Math.min(10,+g.min||2));pnB=Math.max(pnA,Math.min(10,+g.max||5));
+  FI={img:g.img||'',pos:g.pos?{...g.pos}:null,emoji:g.emoji||'🎲',hue:g.hue,format:g.format||'개인전',tags:[...(g.tags||[])],team:!!g.team};pnA=Math.max(1,Math.min(10,+g.min||2));pnB=Math.max(pnA,Math.min(10,+g.max||5));
   openSheet(`<h2>${id?'게임 수정':'게임 추가'}</h2><p class="lead">사진을 넣지 않으면 이모지 표지로 보여요</p>
   <div class="gfgrid">
     <div class="gfimg"><div id="cropbox"></div></div>
     <div class="gfinfo">
       <div class="field"><label>이모지 · 이름</label><div class="emn"><button type="button" class="inp emobtn" id="femo" aria-label="이모지 고르기" onclick="toggleEmo()">${esc(g.emoji)}</button><input class="inp" id="fname" value="${esc(g.name)}" placeholder="게임 이름"></div></div>
       <div class="field"><label>형식</label><div class="fseg" id="ffmt"></div></div>
+      <div class="field"><label>단짝 승률</label><button type="button" class="tgc" id="fteam" style="width:100%;height:40px" onclick="FI.team=!FI.team;drawTeam()"></button></div>
       <div class="field"><label>평점 (선택)</label><input class="inp" id="frat" type="number" step="0.1" inputmode="decimal" value="${g.rating}" placeholder="예: 7.5"></div>
     </div>
   </div>
@@ -1781,7 +1767,7 @@ function gameForm(id){
   <input type="file" id="fimg" accept="image/*" style="display:none" onchange="if(this.files[0])loadBlob(this.files[0])">
   <div class="field"><label>한 줄 설명</label><textarea class="inp" id="fdesc">${esc(g.desc)}</textarea></div>
   <div class="btns"><button class="btn" onclick="${id?`openGame('${id}')`:'closeSheet()'}">취소</button><button class="btn pri" onclick="saveGame('${id||''}',${g.hue})">저장</button></div>`);
-  drawCrop();pnUpd();drawFmt();drawTags();
+  drawCrop();pnUpd();drawFmt();drawTeam();drawTags();
 }
 function drawCrop(){
   const box=$('#cropbox');if(!box)return;
@@ -1833,7 +1819,7 @@ function applyLink(){
 function saveGame(id,hue){
   const name=$('#fname').value.trim();if(!name){toast('게임 이름을 적어 주세요');return}
   const min=pnA,max=pnB;
-  const data={name,emoji:FI.emoji||'🎲',min,max,format:FI.format,tags:[...FI.tags],theme:'',rating:+$('#frat').value||0,desc:$('#fdesc').value.trim(),hue,img:FI.img,pos:FI.img?fitPos(FI.pos):null};
+  const data={name,emoji:FI.emoji||'🎲',min,max,format:FI.format,tags:[...FI.tags],theme:'',rating:+$('#frat').value||0,desc:$('#fdesc').value.trim(),hue,img:FI.img,pos:FI.img?fitPos(FI.pos):null,team:!!FI.team};
   if(id)Object.assign(game(id),data);else S.games.push({id:uid(),...data});
   save();closeSheet();render();toast(id?'수정했어요':'게임을 추가했어요');
 }
@@ -1847,7 +1833,9 @@ VIEWS.tools=()=>`<div class="tg">
   <div class="card tool soon"><div class="ic">${emo('➕')}</div><b>다음 도구</b></div></div>`;
 
 /* 스톱워치·타이머 */
-const T={mode:'sw',acc:0,st:0,run:false,laps:[],dur:60000,left:60000,end:0,trun:false,done:false};
+const T={mode:'sw',acc:0,st:0,run:false,laps:[],dur:60000,left:60000,end:0,trun:false,done:false,cus:false,cusTxt:''};
+function tmCustom(){T.cus=true;T.cusTxt='';drawTimer();const e=$('#tmcus');if(e)e.focus()}
+function tmCus(v){T.cusTxt=v;if(T.trun)return;const m=parseFloat(v),sec=Math.round(m*60);if(m>0&&sec>=5&&sec<=99*60){T.dur=sec*1000;T.left=T.dur;T.done=false}}
 let raf=0,actx=null;
 function openTimer(){openSheet('<button class="fsx" aria-label="닫기" onclick="closeSheet()">✕</button><div id="tm"></div>',()=>{cancelAnimationFrame(raf)});$('#sheet').classList.add('full');drawTimer();loop()}
 const fmtT=ms=>{ms=Math.max(0,ms);const m=Math.floor(ms/60000),s=Math.floor(ms/1000)%60,cs=Math.floor(ms/10)%100;return `${pad2(m)}:${pad2(s)}<small>.${pad2(cs)}</small>`};
@@ -1860,7 +1848,7 @@ function drawTimer(){
     <div class="btns"><button class="btn" onclick="swLap()">${T.run?'구간':'초기화'}</button><button class="btn pri" onclick="swToggle()">${T.run?'멈춤':'시작'}</button></div>
     <div class="laps">${T.laps.map((l,i)=>`<div><span>구간 ${T.laps.length-i}</span><span>${fmtT(l).replace(/<\/?small>/g,'')}</span></div>`).join('')}</div>`
   :`<div class="timer ${T.done?'end':''}" id="tt">${fmtT(tmLeft())}</div>
-    <div class="chips" style="justify-content:center">${[[30,'30초'],[60,'1분'],[120,'2분'],[180,'3분'],[300,'5분']].map(([s,l])=>`<button class="chip plain ${T.dur===s*1000?'on':''}" onclick="setDur(${s})">${l}</button>`).join('')}</div>
+    <div class="chips tmpre">${[[30,'30초'],[60,'1분'],[120,'2분'],[180,'3분'],[300,'5분']].map(([s,l])=>`<button class="chip plain ${!T.cus&&T.dur===s*1000?'on':''}" onclick="T.cus=false;setDur(${s})">${l}</button>`).join('')}${T.cus?`<label class="chip plain on cin"><input id="tmcus" type="number" inputmode="decimal" step="0.5" min="0.1" max="99" placeholder="분" value="${esc(T.cusTxt)}" oninput="tmCus(this.value)" aria-label="타이머 분"><span>분</span></label>`:`<button class="chip plain" onclick="tmCustom()">커스텀</button>`}</div>
     <div class="btns"><button class="btn" onclick="setDur(T.dur/1000)">초기화</button><button class="btn pri" onclick="tmToggle()">${T.trun?'멈춤':'시작'}</button></div>`);
 }
 function loop(){const el=$('#tt');if(!el)return;
