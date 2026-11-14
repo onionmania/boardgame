@@ -1115,7 +1115,7 @@ html[data-theme] .gcard .cv{border-radius:max(0px,calc(var(--r) - 12px))}
 .sfpanel .chips .chip small{opacity:.6;margin-left:4px;font-size:10px}
 .sfprev{margin:12px 0 10px;padding:9px 10px;border-radius:12px;background:var(--soft);font-size:13px;line-height:1.5;text-align:center;min-height:22px}
 .sfprev b{font-weight:800}
-.skt td .ring{min-width:2.1em;height:2.1em;padding:0 .12em;letter-spacing:-.04em;white-space:nowrap}
+.skt td .zr{display:inline-grid;place-items:center;box-sizing:border-box;min-width:36px;height:36px;margin:-6px -4px;padding:0 4px;border:2px solid currentColor;border-radius:999px;font:inherit;letter-spacing:inherit;line-height:1;white-space:nowrap}
 .skt td.sfz{font-size:13px;color:var(--sub);padding:12px 4px}
 
 /* v23 */
@@ -1215,6 +1215,17 @@ html[data-theme=brutal] .tchd .chip.ic:disabled{opacity:.4;box-shadow:none}
 [data-theme=brutal] .tchd .fsx:active,[data-theme=brutal] .tchd .chip.ic:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #111}
 [data-theme=brutal] .tchd{gap:10px;padding-bottom:4px}
 html[data-theme=retro] .tchd .chip.ic,html[data-theme=retro] .tchd .fsx{width:36px;height:36px;border-radius:4px;border:2px solid #7a5cff;background:#1b0e3f;color:#f6f1ff;padding:0}
+.sftm{margin-left:-4px!important;margin-right:-4px!important;display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;gap:8px;padding:10px 12px;margin-top:0;margin-bottom:8px}
+.sftm .chip{width:44px;height:44px;padding:0;justify-content:center;font-size:22px;font-weight:700}
+.sftm .v{text-align:center;min-width:0}
+.sftm .v small{display:block;font-size:11px;color:var(--sub);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sftm .v b{display:block;font-size:34px;line-height:1.05;font-weight:900;font-variant-numeric:tabular-nums}
+.sftm .v.end b{color:var(--pinkt)}
+.sftm .st{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sftm .st .btn{height:40px;font-size:14px;margin:0}
+html[data-theme] #sk .tchd,html[data-theme] #sf .tchd{margin-bottom:14px}
+html[data-theme] #tc.game .tchd{margin-bottom:6px}
+html[data-theme] #sheet:has(#sk) .fsx{top:auto}
 </style>
 </head>
 <body>
@@ -1967,7 +1978,7 @@ function drawCal(){
   <div class="calwd">${WD.map((w,i)=>`<span class="${i===0?'sun':i===6?'sat':''}">${w}</span>`).join('')}</div>
   <div class="calgrid">${cells}</div>
   <div class="btns"><button class="btn" onclick="calPick(todayStr())">오늘로 이동</button></div>`}
-function openSK(){openSheet('<button class="fsx" aria-label="닫기" onclick="closeSheet()">✕</button><div id="sk"></div>');drawSK()}
+function openSK(){openSheet('<div id="sk"></div>');drawSK()}
 function skMigrate(){const k=S.sk;if(!k||k.scores)return;k.scores={};const old=(c,n)=>{const b=c.bid,w=c.won;if(b===0)return w===0?10*n:-10*n;return w===b?20*b+(c.bonus||0):-10*Math.abs(w-b)};skRange(k).forEach(r=>{const rd=k.rounds&&k.rounds[r];if(!rd)return;k.scores[r]={};k.players.forEach(p=>{const c=rd[p];if(c&&c.set)k.scores[r][p]=old(c,r)})});delete k.rounds}
 function skTotals(){skMigrate();const t={};S.sk.players.forEach(p=>{t[p]=0;skRange(S.sk).forEach(r=>{const v=(S.sk.scores[r]||{})[p];if(typeof v==='number')t[p]+=v})});return t}
 let skCell=null;
@@ -1976,7 +1987,7 @@ function drawSK(){
   const keep=$('#sheet').scrollTop;
   $('#sheet').classList.toggle('tall',!!S.sk);
   if(!S.sk){
-    el.innerHTML=`<h2 style="margin-bottom:12px">스컬킹 점수판</h2>
+    el.innerHTML=`<div class="tchd"><h2>스컬킹 점수판</h2><span class="sp"></span><button class="fsx" aria-label="닫기" onclick="closeSheet()">✕</button></div>
     <div class="sec" style="margin-top:4px">① 함께하는 사람 (2–8명)</div>${activeMembers().length?'':'<div class="empty">회원이 없어요. ⚙ 설정에서 회원을 먼저 추가해 주세요</div>'}
     <div class="chips fitc">${activeMembers().map(m=>`<button class="chip ${skSel.includes(m.id)?'on':''}" onclick="skPick('${m.id}')">${av(m,1)}${esc(m.name)}</button>`).join('')}</div>
     <div class="sec">② 몇 장부터 몇 장까지 할까요?</div>
@@ -1988,15 +1999,15 @@ function drawSK(){
   const sel=skCell;
   const val=(r,p)=>(k.scores[r]||{})[p];
   const fmt=v=>typeof v==='number'?(v>0?'+'+v:''+v):'·';
-  el.innerHTML=`<h2 style="margin-bottom:14px">스컬킹 점수판</h2>
+  el.innerHTML=`<div class="tchd"><h2>스컬킹 점수판</h2><span class="sp"></span><button class="chip plain ic" aria-label="실행 취소" ${skHist.length?'':'disabled'} onclick="skUndo()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button><button class="chip plain ic" aria-label="다시 실행" ${skRedoSt.length?'':'disabled'} onclick="skRedo()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button><button class="fsx" aria-label="닫기" onclick="closeSheet()">✕</button></div>
   <div class="card sktw"><table class="skt"><colgroup><col style="width:44px">${k.players.map(()=>'<col>').join('')}</colgroup>
   <thead><tr><th></th>${k.players.map(p=>`<th>${av(mem(p))}<span>${esc(mem(p).name)}</span></th>`).join('')}</tr></thead><tbody>
-  ${rng.map(r=>`<tr><td class="r">${r}장</td>${k.players.map(p=>{const v=val(r,p),on=sel&&sel.r===r&&sel.p===p,z=((k.zeros||{})[r]||{})[p];return `<td><button class="${typeof v==='number'?(v<0?'neg':''):'e'} ${on?'sel':''}" onclick="skCellPick(${r},'${p}')">${z?`<b class="ring">${fmt(v)}</b>`:fmt(v)}</button></td>`}).join('')}</tr>`).join('')}
+  ${rng.map(r=>`<tr><td class="r">${r}장</td>${k.players.map(p=>{const v=val(r,p),on=sel&&sel.r===r&&sel.p===p,z=((k.zeros||{})[r]||{})[p];return `<td><button class="${typeof v==='number'?(v<0?'neg':''):'e'} ${on?'sel':''}" onclick="skCellPick(${r},'${p}')">${z?`<span class="zr">${fmt(v)}</span>`:fmt(v)}</button></td>`}).join('')}</tr>`).join('')}
   <tr class="tot"><td class="r">합계</td>${k.players.map(p=>`<td class="${tot[p]===top&&top>0?'top':''} ${tot[p]<0?'neg':''}">${tot[p]}</td>`).join('')}</tr></tbody></table></div>
   <div class="skdock"><div class="who"><span><b>${sel.r}장 · ${esc(mem(sel.p).name)}</b> <span class="dim">${typeof val(sel.r,sel.p)==='number'?fmt(val(sel.r,sel.p)):'아직 없음'}</span></span>
     <button class="chip plain zchip ${((k.zeros||{})[sel.r]||{})[sel.p]?'on':''}" onclick="skZero()">0승 예측</button></div>
     <div class="row7"><button class="n" onclick="skAdd(-30)">−30</button><button class="n" onclick="skAdd(-20)">−20</button><button class="n" onclick="skAdd(-10)">−10</button><button class="z" onclick="skClear()">초기화</button><button class="p" onclick="skAdd(10)">+10</button><button class="p" onclick="skAdd(20)">+20</button><button class="p" onclick="skAdd(30)">+30</button></div></div>
-  <div class="btns"><button class="btn danger" onclick="confirmSheet('스컬킹 게임을 끝낼까요?','점수판이 초기화돼요.','끝내기',()=>{S.sk=null;skCell=null;save();openSK()},openSK)">새 게임</button><button class="btn" onclick="skToFine()">벌금 기록하기</button></div>`;
+  <div class="btns"><button class="btn danger" onclick="confirmSheet('스컬킹 게임을 끝낼까요?','점수판이 초기화돼요.','끝내기',()=>{S.sk=null;skCell=null;skHist=[];skRedoSt=[];save();openSK()},openSK)">새 게임</button><button class="btn" onclick="skToFine()">벌금 기록하기</button></div>`;
   $('#sheet').scrollTop=keep;
 }
 const skX=v=>(v-1)/9*100;
@@ -2009,11 +2020,17 @@ function skRsMove(e){if(!skRs)return;const v=skRsVal(e);if(skRs.amb){if(v===skFr
 function skRsUp(e){if(!skRs)return;skRs=null;try{localStorage.setItem('bgclub-skrange',JSON.stringify([skFrom,skTo]))}catch(er){}}
 function skSetRange(a,b){skFrom=a;skTo=b;try{localStorage.setItem('bgclub-skrange',JSON.stringify([a,b]))}catch(e){}drawSK()}
 function skPick(id){const i=skSel.indexOf(id);i>=0?skSel.splice(i,1):skSel.push(id);drawSK()}
-function skStart(){S.sk={players:[...skSel],from:skFrom,to:skTo,scores:{}};skCell=null;save();drawSK()}
+function skStart(){S.sk={players:[...skSel],from:skFrom,to:skTo,scores:{}};skCell=null;skHist=[];skRedoSt=[];save();drawSK()}
 function skCellPick(r,p){skCell={r,p};drawSK()}
-function skAdd(d){const c=skCell;if(!c)return;const sc=S.sk.scores[c.r]||(S.sk.scores[c.r]={});sc[c.p]=(typeof sc[c.p]==='number'?sc[c.p]:0)+d;save();drawSK()}
-function skClear(){const c=skCell;if(!c)return;if(S.sk.scores[c.r])delete S.sk.scores[c.r][c.p];if(S.sk.zeros&&S.sk.zeros[c.r])delete S.sk.zeros[c.r][c.p];save();drawSK()}
-function skZero(){const c=skCell;if(!c)return;const k=S.sk,z=(k.zeros=k.zeros||{}),o=(z[c.r]=z[c.r]||{});if(o[c.p])delete o[c.p];else o[c.p]=true;save();drawSK()}
+let skHist=[],skRedoSt=[];
+const skSnap=()=>JSON.stringify({s:S.sk.scores,z:S.sk.zeros||{}});
+function skPush(){skHist.push(skSnap());if(skHist.length>100)skHist.shift();skRedoSt=[]}
+function skRestore(j){const o=JSON.parse(j);S.sk.scores=o.s;S.sk.zeros=o.z}
+function skUndo(){if(!skHist.length)return;skRedoSt.push(skSnap());skRestore(skHist.pop());save();drawSK()}
+function skRedo(){if(!skRedoSt.length)return;skHist.push(skSnap());skRestore(skRedoSt.pop());save();drawSK()}
+function skAdd(d){const c=skCell;if(!c)return;skPush();const sc=S.sk.scores[c.r]||(S.sk.scores[c.r]={});sc[c.p]=(typeof sc[c.p]==='number'?sc[c.p]:0)+d;save();drawSK()}
+function skClear(){const c=skCell;if(!c)return;skPush();if(S.sk.scores[c.r])delete S.sk.scores[c.r][c.p];if(S.sk.zeros&&S.sk.zeros[c.r])delete S.sk.zeros[c.r][c.p];save();drawSK()}
+function skZero(){const c=skCell;if(!c)return;skPush();const k=S.sk,z=(k.zeros=k.zeros||{}),o=(z[c.r]=z[c.r]||{});if(o[c.p])delete o[c.p];else o[c.p]=true;save();drawSK()}
 /* 점수판 하위 벌금 대상: 기본 1명(6명 이상이면 2명). 동점이면 공동 하위를 모두 포함, 전원 동점이면 고르지 않음 */
 /* 점수판 → 벌금 기록: 하위 몇 명에게 벌금을 줄지 먼저 고르는 창 */
 let FC=null;
@@ -2113,7 +2130,15 @@ function tcToFine(team){
    비스파이 승리 — 스파이 적발: 비스파이 각 +1, 먼저 고발해 성공시킨 사람은 +1 더(합 2) / 스파이가 장소를 틀림: 비스파이 각 +1 */
 let sfSel=[],SFI={spy:null,out:null,acc:null},sfRedoSt=[];
 const SFO=[['caught','🔍','스파이 적발','비스파이 +1 · 고발자 +2'],['wrong','🙅','엉뚱한 사람 지목','스파이 +4'],['loc','📍','장소를 맞힘','스파이 +4'],['miss','❌','장소를 틀림','비스파이 각 +1'],['time','⏱','시간 종료 (적발 실패)','스파이 +2']];
-function openSF(){openSheet('<div id="sf"></div>');drawSF()}
+const SFT={dur:480000,left:480000,run:false,end:0,done:false,iv:0};
+const sfTLeft=()=>SFT.run?Math.max(0,SFT.end-Date.now()):SFT.left;
+const sfTFmt=ms=>{const t=Math.ceil(ms/1000);return pad2(Math.floor(t/60))+':'+pad2(t%60)};
+function sfTStop(){clearInterval(SFT.iv);SFT.iv=0;if(SFT.run){SFT.left=sfTLeft();SFT.run=false}}
+function sfTTick(){const e=$('#sftv');if(!e)return;const l=sfTLeft();e.textContent=sfTFmt(l);if(SFT.run&&l<=0){SFT.run=false;SFT.left=0;SFT.done=true;clearInterval(SFT.iv);SFT.iv=0;beep();drawSF()}}
+function sfTAdj(m){const d=m*60000,nd=Math.max(60000,Math.min(30*60000,SFT.dur+d));if(nd===SFT.dur)return;const df=nd-SFT.dur;SFT.dur=nd;if(SFT.run)SFT.end+=df;else{SFT.left=Math.max(0,SFT.left+df);if(SFT.done||SFT.left<=0){SFT.left=SFT.dur}SFT.done=false}drawSF()}
+function sfTToggle(){initAudio();if(SFT.run){SFT.left=sfTLeft();SFT.run=false;clearInterval(SFT.iv);SFT.iv=0}else{if(SFT.left<=0)SFT.left=SFT.dur;SFT.end=Date.now()+SFT.left;SFT.run=true;SFT.done=false;clearInterval(SFT.iv);SFT.iv=setInterval(sfTTick,200)}drawSF()}
+function sfTReset(){clearInterval(SFT.iv);SFT.iv=0;SFT.run=false;SFT.left=SFT.dur;SFT.done=false;drawSF()}
+function openSF(){openSheet('<div id="sf"></div>',sfTStop);drawSF()}
 function sfCalc(pl,spy,out,acc){const o={};pl.forEach(p=>o[p]=0);if(!spy||!out)return o;
   if(out==='caught')pl.forEach(p=>{if(p!==spy)o[p]=p===acc?2:1});
   else if(out==='miss')pl.forEach(p=>{if(p!==spy)o[p]=1});
@@ -2138,6 +2163,10 @@ function drawSF(){
   const allSpied=pl.every(p=>spied[p]>0)&&k.rounds.length>=pl.length;
   const leaders=pl.filter(p=>tot[p]===top);
   el.innerHTML=`<div class="tchd"><h2>스파이폴 점수판</h2><span class="sp"></span><button class="chip plain ic" aria-label="실행 취소" ${k.rounds.length?'':'disabled'} onclick="sfUndo()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button><button class="chip plain ic" aria-label="다시 실행" ${sfRedoSt.length?'':'disabled'} onclick="sfRedo()"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button><button class="fsx" aria-label="닫기" onclick="closeSheet()">✕</button></div>
+  <div class="card sftm"><button class="chip plain" aria-label="1분 줄이기" ${SFT.dur<=60000?'disabled':''} onclick="sfTAdj(-1)">−</button>
+    <div class="v ${SFT.done?'end':''}"><small>⏱️ 라운드 타이머 · ${SFT.dur/60000}분</small><b id="sftv">${sfTFmt(sfTLeft())}</b></div>
+    <button class="chip plain" aria-label="1분 늘리기" ${SFT.dur>=30*60000?'disabled':''} onclick="sfTAdj(1)">+</button>
+    <div class="st"><button class="btn ${SFT.run?'':'pri'}" onclick="sfTToggle()">${SFT.run?'멈춤':SFT.done?'다시 시작':'시작'}</button><button class="btn" onclick="sfTReset()">초기화</button></div></div>
   <div class="card sktw"><table class="skt"><colgroup><col style="width:44px">${pl.map(()=>'<col>').join('')}</colgroup>
   <thead><tr><th></th>${pl.map(p=>`<th>${av(mem(p))}<span>${esc(mem(p).name)}</span></th>`).join('')}</tr></thead><tbody>${rows}
   <tr class="tot"><td class="r">합계</td>${pl.map(p=>`<td class="${tot[p]===top&&top>0?'top':''}">${tot[p]}</td>`).join('')}</tr></tbody></table></div>
@@ -2180,6 +2209,7 @@ function hbOpen(){clearTimeout(HB.t);if(HB.sheet)return;HB.sheet=true;if(hbSt()!
 function hbClose(){if(!HB.sheet)return;HB.sheet=false;clearTimeout(HB.t);HB.t=setTimeout(()=>{if(!HB.sheet&&hbSt()==='sheet'){HB.skipUntil=Date.now()+700;try{history.back()}catch(e){HB.skipUntil=0}}},160)}
 /* 안전장치(guard)는 '손가락으로 누른 순간'에만 쌓아요. 화면을 만지지 않고 자동으로 쌓으면 브라우저가 뒤로가기에서 통째로 건너뛰어 버려요 */
 function hbGuard(){if(HB.sheet)return;const k=hbSt();if(!k||k==='base'){HB.armed=0;hbPush('guard')}}
+try{history.scrollRestoration='manual'}catch(e){}
 try{history.replaceState({bg:'base'},'')}catch(e){}
 ['pointerup','touchend','mouseup','keydown'].forEach(ev=>document.addEventListener(ev,hbGuard,{capture:true,passive:true}));
 window.addEventListener('popstate',()=>{
@@ -2195,7 +2225,7 @@ const end=()=>{if(!d)return;const s=sh(),dy=d.dy,v=dy/Math.max(1,Date.now()-d.t)
 document.addEventListener('pointerup',end);document.addEventListener('pointercancel',end)})();
 (function(){let t=null;const sh=()=>document.getElementById('sheet'),sw=()=>document.getElementById('sw');
 document.addEventListener('touchstart',e=>{t=null;const s=sh();if(!s||e.touches.length!==1||!sw().classList.contains('show'))return;
-  const el=e.target;if(!s.contains(el)||s.classList.contains('full'))return;
+  const el=e.target;if(!s.contains(el))return;
   if(el.closest('.grab,input,textarea,select,#crop,.nodrag'))return;
   for(let n=el;n&&n!==s.parentElement;n=n.parentElement){if(n.scrollTop>0)return}
   t={x:e.touches[0].clientX,y:e.touches[0].clientY,t:Date.now(),on:false,dy:0,y0:0}},{passive:true});
