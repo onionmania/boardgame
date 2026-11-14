@@ -1177,19 +1177,20 @@ html:has(#sw.show),html:has(#sw.show) body{overflow:hidden;overscroll-behavior:n
 @media(max-width:899px){[data-theme=material] .savebar{bottom:calc(env(safe-area-inset-bottom) + 112px)}}
 
 .cr.tap{cursor:pointer;-webkit-tap-highlight-color:transparent}.cr.tap:active{opacity:.7}
-.atstrip{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 14px}
-.atstrip i{width:14px;height:14px;border-radius:4px;background:var(--soft2)}
-.atstrip i.o{background:var(--a1)}
+.stb{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 12px}
+.stb .mini{text-align:center;padding:10px 4px}.stb .mini small{display:block;font-size:11px}.stb .mini b{font-size:15px}
 .atl{display:flex;flex-direction:column}
 .atr{display:flex;align-items:center;gap:10px;padding:10px 4px;border-top:1px solid var(--soft)}
-.atr .d{flex:1;font-size:14px;font-weight:600}
-.atr .g{font-size:12px;color:var(--sub)}
-.atr b{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:var(--soft);color:var(--dim)}
-.atr.o b{background:var(--a1);color:#fff}
-.atr.x .d{color:var(--dim);font-weight:500}
-[data-theme=brutal] .atstrip i,[data-theme=brutal] .atr b{border:2px solid #111}
-[data-theme=brutal] .atr.o b{color:#111;background:#ffd23f}
-[data-theme=material] .atr.o b{background:#6750a4}
+.atr .nm{flex:1;min-width:0}.atr .nm b{display:block;font-size:14px}.atr .nm small{display:block;font-size:12px;color:var(--sub);margin-top:1px}
+.atr .rv{font-weight:800;font-size:14px;white-space:nowrap;color:var(--text)}
+.atr .bd{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;background:var(--soft);color:var(--dim)}
+.atr.o .bd{background:var(--a1);color:#fff}
+.atr.x .nm b{color:var(--dim);font-weight:500}
+.atr .cv.thumb,.atr .av{flex:none}
+[data-theme=brutal] .atr .bd{border:2px solid #111}
+[data-theme=brutal] .atr.o .bd{color:#111;background:#ffd23f}
+[data-theme=material] .atr.o .bd{background:#6750a4}
+@media(min-width:900px){.dg .d-four{grid-column:1/-1}.split.four{grid-template-columns:repeat(4,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -1528,7 +1529,7 @@ VIEWS.dash=()=>{
     if(!win.length||!lose.length)return;
     [[win,1],[lose,0]].forEach(([t,w])=>{if(t.length<2)return;const ids=[...t].sort(),key=r.gameId+'|'+ids.join('|');const o=pairs[key]||(pairs[key]={gid:r.gameId,ids,n:0,w:0});o.n++;o.w+=w})});
   const pr=Object.values(pairs).filter(x=>x.w>0).sort((a,b)=>b.w-a.w||b.w/b.n-a.w/a.n||a.n-b.n).slice(0,3);
-  const att=activeMembers().map(m=>({m,n:st.part[m.id]||0})).sort((a,b)=>b.n-a.n||a.m.name.localeCompare(b.m.name,'ko'));
+  const nDays=days.length,att=activeMembers().map(m=>({m,n:days.filter(d=>S.records.some(r=>r.date===d&&r.players.includes(m.id))).length})).sort((a,b)=>b.n-a.n||a.m.name.localeCompare(b.m.name,'ko'));
   const MINP=3;
   const pro=activeMembers().map(m=>{const n=st.part[m.id]||0,f=st.cntF[m.id]||0;return {m,n,f,p:n?1-f/n:0}}).filter(x=>x.n>=MINP).sort((a,b)=>b.p-a.p||b.n-a.n||a.m.name.localeCompare(b.m.name,'ko')).slice(0,5);
   return `
@@ -1545,28 +1546,26 @@ VIEWS.dash=()=>{
     <div class="card"><h3>🎲 인기 게임</h3>${hot3.length?hot3.map((h,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${cover(h.g,'thumb')}<span class="nm">${esc(h.g.name)}</span><span class="amt">${h.plays}판</span></div></div>`).join(''):'<div class="empty">기록이 없어요</div>'}</div>
     <div class="card"><h3>💤 쉬고 있는 게임</h3>${idle?`<div class="cr"><div class="top">${cover(idle.g,'thumb')}<span class="nm">${esc(idle.g.name)}</span><span class="amt">${idle.days?idle.days+'일째':'오늘'}</span></div></div>`:'<div class="empty">기록이 없어요</div>'}</div>
   </div></div>
-  <div class="d-split"><div class="split">
+  <div class="d-four"><div class="split four">
     <div class="card"><h3>🙋 참석률</h3>
-      ${nRec&&att.length?att.map((x,i)=>`<div class="cr tap" onclick="openAttend('${x.m.id}')" role="button"><div class="top"><span class="no">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.n/nRec*100)}%</span></div><div class="bar"><i style="width:${x.n/nRec*100}%"></i></div></div>`).join(''):'<div class="empty">기록이 쌓이면 보여요</div>'}
+      ${nDays&&att.length?att.map((x,i)=>`<div class="cr tap" onclick="openStat('att','${x.m.id}')" role="button"><div class="top"><span class="no">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.n/nDays*100)}%</span></div><div class="bar"><i style="width:${x.n/nDays*100}%"></i></div></div>`).join(''):'<div class="empty">기록이 쌓이면 보여요</div>'}
     </div>
     <div class="card"><h3>🔥 연속 참석</h3>
-      ${stk.length?stk.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${x.best}회</span></div></div>`).join('')+`<p class="rcap" style="margin:10px 0 0">모임 날짜 기준 연속 참석 최고 기록이에요</p>`:'<div class="empty">2번 이상 연달아 나오면 보여요</div>'}
+      ${stk.length?stk.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${x.best}회</span></div><div class="bar"><i style="width:${x.best/stk[0].best*100}%"></i></div></div>`).join('')+`<p class="rcap" style="margin:10px 0 0">모임 날짜 기준 연속 참석 최고 기록이에요</p>`:'<div class="empty">2번 이상 연달아 나오면 보여요</div>'}
     </div>
-  </div></div>
-  <div class="d-split"><div class="split">
     <div class="card"><h3>🏅 개인 승률</h3>
-      ${pro.length?pro.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.p*100)}%</span></div><div class="bar"><i style="width:${Math.max(3,x.p*100)}%"></i></div></div>`).join('')+`<p class="rcap" style="margin:10px 0 0">참여한 판 중 벌금을 내지 않은 비율이에요 (${MINP}판 이상 참여한 회원)</p>`:`<div class="empty">${MINP}판 이상 참여하면 나와요</div>`}
+      ${pro.length?pro.map((x,i)=>`<div class="cr tap" onclick="openStat('win','${x.m.id}')" role="button"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.p*100)}%</span></div><div class="bar"><i style="width:${Math.max(3,x.p*100)}%"></i></div></div>`).join('')+`<p class="rcap" style="margin:10px 0 0">참여한 판 중 벌금을 내지 않은 비율이에요 (${MINP}판 이상 참여한 회원)</p>`:`<div class="empty">${MINP}판 이상 참여하면 나와요</div>`}
     </div>
     <div class="card"><h3>🤝 단짝 승률</h3>
-      ${pr.length?pr.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span><span class="nm"><b style="font-weight:700">${x.ids.map(id=>esc(mem(id).name)).join('·')}</b><small class="dim" style="display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis">${esc(game(x.gid).name)}</small></span><span class="amt" style="text-align:right">${Math.round(x.w/x.n*100)}%<small class="dim" style="display:block;font-size:11px;font-weight:500">${x.w}승 ${x.n}판</small></span></div></div>`).join(''):'<div class="empty">팀 게임 기록이 쌓이면 나와요</div>'}
+      ${pr.length?pr.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span><span class="nm"><b style="font-weight:700;white-space:normal;word-break:keep-all;line-height:1.25;display:block">${x.ids.map(id=>esc(mem(id).name)).join('·')}</b><small class="dim" style="display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis">${esc(game(x.gid).name)}</small></span><span class="amt" style="text-align:right">${Math.round(x.w/x.n*100)}%<small class="dim" style="display:block;font-size:11px;font-weight:500">${x.w}승 ${x.n}판</small></span></div><div class="bar"><i style="width:${Math.max(3,x.w/x.n*100)}%"></i></div></div>`).join(''):'<div class="empty">팀 게임 기록이 쌓이면 나와요</div>'}
     </div>
   </div></div>
   <div class="d-split"><div class="split">
     <div class="card"><h3>👥 회원별 벌금</h3>
-      ${ranking.length?ranking.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3&&x.amt?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${won(x.amt)}</span></div><div class="bar pink"><i style="width:${x.amt/maxM*100}%"></i></div></div>`).join(''):'<div class="empty">회원이 없어요</div>'}
+      ${ranking.length?ranking.map((x,i)=>`<div class="cr tap" onclick="openStat('mf','${x.m.id}')" role="button"><div class="top"><span class="no ${i<3&&x.amt?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${won(x.amt)}</span></div><div class="bar pink"><i style="width:${x.amt/maxM*100}%"></i></div></div>`).join(''):'<div class="empty">회원이 없어요</div>'}
     </div>
     <div class="card"><h3>🎮 게임별 벌금</h3>
-      ${gr.length?gr.slice(0,ranking.length||8).map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3&&x.fine?'gold':''}">${i+1}</span>${cover(x.g,'thumb')}<span class="nm">${esc(x.g.name)}</span><span class="amt">${won(x.fine)}</span></div><div class="bar"><i style="width:${x.fine/maxG*100}%"></i></div></div>`).join(''):'<div class="empty">기록이 없어요</div>'}
+      ${gr.length?gr.slice(0,ranking.length||8).map((x,i)=>`<div class="cr tap" onclick="openStat('gf','${x.g.id}')" role="button"><div class="top"><span class="no ${i<3&&x.fine?'gold':''}">${i+1}</span>${cover(x.g,'thumb')}<span class="nm">${esc(x.g.name)}</span><span class="amt">${won(x.fine)}</span></div><div class="bar"><i style="width:${x.fine/maxG*100}%"></i></div></div>`).join(''):'<div class="empty">기록이 없어요</div>'}
     </div>
   </div></div>
   <div class="d-side"><div class="card"><h3>📅 월별 적립</h3>
@@ -1630,15 +1629,37 @@ function saveRecord(){
   toast(`저장했어요${t?' · '+won(t):''}`);
 }
 
-/* ---------- 회원 참석 현황 ---------- */
-function openAttend(id){
-  const m=mem(id),days=[...new Set(S.records.map(r=>r.date))].sort().reverse();
-  const per=days.map(d=>{const rs=S.records.filter(r=>r.date===d),mine=rs.filter(r=>r.players.includes(id)).length;return {d,all:rs.length,mine}});
-  const nRec=S.records.length,my=S.records.filter(r=>r.players.includes(id)).length,come=per.filter(x=>x.mine).length;
-  openSheet(`<h2>${esc(m.name)} 님의 참석</h2>
-  <p class="lead">${nRec?`전체 ${nRec}판 중 ${my}판 참여 (${Math.round(my/nRec*100)}%) · 모임 ${days.length}일 중 ${come}일 참석`:'아직 기록이 없어요'}</p>
-  ${days.length?`<div class="atstrip">${[...per].reverse().map(x=>`<i class="${x.mine?'o':'x'}" title="${fmtDate(x.d)}"></i>`).join('')}</div>
-  <div class="atl">${per.map(x=>`<div class="atr ${x.mine?'o':'x'}"><span class="d">${fmtDate(x.d)}</span><span class="g">${x.mine?`${x.mine} / ${x.all}판`:`0 / ${x.all}판`}</span><b>${x.mine?'O':'X'}</b></div>`).join('')}</div>`:''}`);
+/* ---------- 통계 상세 창 (참석률·개인 승률·회원별 벌금·게임별 벌금 모두 같은 구조) ---------- */
+const stBox=a=>`<div class="stb">${a.map(([l,v])=>`<div class="mini"><small>${l}</small><b>${v}</b></div>`).join('')}</div>`;
+const stRow=(lead,name,sub,right,bd)=>`<div class="atr ${bd==='o'?'o':bd==='x'?'x':''}">${lead||''}<div class="nm"><b>${name}</b>${sub?`<small>${sub}</small>`:''}</div>${bd?`<b class="bd">${bd==='o'?'O':'X'}</b>`:`<span class="rv">${right}</span>`}</div>`;
+function openStat(kind,id){
+  const R=S.records.filter(r=>game(r.gameId)),fOf=(r,m)=>(r.fines.find(f=>f.memberId===m)||{}).amount||0;
+  let title,lead='',box=[],rows=[],empty='아직 기록이 없어요';
+  if(kind==='att'){
+    const days=[...new Set(S.records.map(r=>r.date))].sort().reverse();
+    const per=days.map(d=>{const rs=S.records.filter(r=>r.date===d);return {d,all:rs.length,mine:rs.filter(r=>r.players.includes(id)).length}});
+    const come=per.filter(x=>x.mine).length;
+    title=mem(id).name+' 님의 참석';lead='그날 한 판이라도 함께했다면 참석으로 세요 (중간에 먼저 가도 참석)';
+    box=[['참석률',days.length?Math.round(come/days.length*100)+'%':'-'],['참석',come+'일'],['전체 모임',days.length+'일']];
+    rows=per.map(x=>stRow('',fmtDate(x.d),`${x.mine} / ${x.all}판 참여`,'',x.mine?'o':'x'));
+  }else if(kind==='win'){
+    const by={};R.filter(r=>r.players.includes(id)).forEach(r=>{const o=by[r.gameId]||(by[r.gameId]={n:0,f:0});o.n++;if(r.fines.some(f=>f.memberId===id))o.f++});
+    const n=Object.values(by).reduce((a,o)=>a+o.n,0),f=Object.values(by).reduce((a,o)=>a+o.f,0);
+    title=mem(id).name+' 님의 승률';lead='벌금을 내지 않은 판을 이긴 것으로 세요';
+    box=[['승률',n?Math.round((1-f/n)*100)+'%':'-'],['플레이',n+'판'],['벌금 낸 판',f+'판']];
+    rows=Object.entries(by).sort((a,b)=>(1-b[1].f/b[1].n)-(1-a[1].f/a[1].n)||b[1].n-a[1].n).map(([gid,o])=>stRow(cover(game(gid),'thumb'),esc(game(gid).name),`${o.n}판 중 ${o.n-o.f}판 벌금 없음`,Math.round((1-o.f/o.n)*100)+'%'));
+  }else if(kind==='mf'){
+    const by={};let n=0,cnt=0,tot=0;R.filter(r=>r.players.includes(id)).forEach(r=>{n++;const a=fOf(r,id);if(a){cnt++;tot+=a;const o=by[r.gameId]||(by[r.gameId]={c:0,a:0});o.c++;o.a+=a}});
+    title=mem(id).name+' 님의 벌금';lead='게임별로 낸 벌금이에요';
+    box=[['총 벌금',won(tot)],['벌금 낸 판',cnt+'판'],['플레이',n+'판']];empty='낸 벌금이 없어요 🎉';
+    rows=Object.entries(by).sort((a,b)=>b[1].a-a[1].a||b[1].c-a[1].c).map(([gid,o])=>stRow(cover(game(gid),'thumb'),esc(game(gid).name),`${o.c}번`,won(o.a)));
+  }else{
+    const by={};let n=0,tot=0;R.filter(r=>r.gameId===id).forEach(r=>{n++;r.fines.forEach(f=>{tot+=f.amount;const o=by[f.memberId]||(by[f.memberId]={c:0,a:0});o.c++;o.a+=f.amount})});
+    title=game(id).name+' 벌금 내역';lead='이 게임에서 모인 벌금을 사람별로 나눈 거예요';
+    box=[['모인 벌금',won(tot)],['낸 사람',Object.keys(by).length+'명'],['플레이',n+'판']];empty='모인 벌금이 없어요';
+    rows=Object.entries(by).sort((a,b)=>b[1].a-a[1].a||b[1].c-a[1].c).map(([mid,o])=>stRow(av(mem(mid),1),esc(mem(mid).name),`${o.c}번`,won(o.a)));
+  }
+  openSheet(`<h2>${esc(title)}</h2><p class="lead">${lead}</p>${stBox(box)}<div class="atl">${rows.length?rows.join(''):`<div class="empty">${empty}</div>`}</div>`);
 }
 
 /* ---------- 기록 전체 보기 / 삭제 ---------- */
@@ -1868,9 +1889,10 @@ VIEWS.tools=()=>`<div class="tg">
   <div class="card tool soon"><div class="ic">${emo('➕')}</div><b>다음 도구</b></div></div>`;
 
 /* 스톱워치·타이머 */
-const T={mode:'sw',acc:0,st:0,run:false,laps:[],dur:60000,left:60000,end:0,trun:false,done:false,cus:false,cusTxt:''};
-function tmCustom(){T.cus=true;T.cusTxt='';drawTimer();const e=$('#tmcus');if(e)e.focus()}
-function tmCus(v){T.cusTxt=v;if(T.trun)return;const m=parseFloat(v),sec=Math.round(m*60);if(m>0&&sec>=5&&sec<=99*60){T.dur=sec*1000;T.left=T.dur;T.done=false}}
+const T={mode:'sw',acc:0,st:0,run:false,laps:[],dur:60000,left:60000,end:0,trun:false,done:false,cus:false,cusTxt:'',cusU:'s'};
+function tmCustom(){T.cus=true;T.cusU='s';T.cusTxt='';drawTimer();const e=$('#tmcus');if(e)e.focus()}
+function tmUnit(){const v=parseFloat(T.cusTxt);if(v>0){T.cusTxt=String(T.cusU==='s'?+(v/60).toFixed(2):Math.round(v*60))}T.cusU=T.cusU==='s'?'m':'s';drawTimer();const e=$('#tmcus');if(e){e.focus();tmCus(e.value)}}
+function tmCus(v){T.cusTxt=v;if(T.trun)return;const m=parseFloat(v),sec=Math.round(T.cusU==='m'?m*60:m);if(m>0&&sec>=5&&sec<=99*60){T.dur=sec*1000;T.left=T.dur;T.done=false}}
 let raf=0,actx=null;
 function openTimer(){openSheet('<button class="fsx" aria-label="닫기" onclick="closeSheet()">✕</button><div id="tm"></div>',()=>{cancelAnimationFrame(raf)});$('#sheet').classList.add('full');drawTimer();loop()}
 const fmtT=ms=>{ms=Math.max(0,ms);const m=Math.floor(ms/60000),s=Math.floor(ms/1000)%60,cs=Math.floor(ms/10)%100;return `${pad2(m)}:${pad2(s)}<small>.${pad2(cs)}</small>`};
@@ -1883,7 +1905,7 @@ function drawTimer(){
     <div class="btns"><button class="btn" onclick="swLap()">${T.run?'구간':'초기화'}</button><button class="btn pri" onclick="swToggle()">${T.run?'멈춤':'시작'}</button></div>
     <div class="laps">${T.laps.map((l,i)=>`<div><span>구간 ${T.laps.length-i}</span><span>${fmtT(l).replace(/<\/?small>/g,'')}</span></div>`).join('')}</div>`
   :`<div class="timer ${T.done?'end':''}" id="tt">${fmtT(tmLeft())}</div>
-    <div class="chips tmpre">${[[60,'1분'],[120,'2분'],[300,'5분']].map(([s,l])=>`<button class="chip plain ${!T.cus&&T.dur===s*1000?'on':''}" onclick="T.cus=false;setDur(${s})">${l}</button>`).join('')}${T.cus?`<label class="chip plain on cin"><input id="tmcus" type="number" inputmode="decimal" step="0.5" min="0.1" max="99" placeholder="분" value="${esc(T.cusTxt)}" oninput="tmCus(this.value)" aria-label="타이머 분"><span>분</span></label>`:`<button class="chip plain" onclick="tmCustom()">커스텀</button>`}</div>
+    <div class="chips tmpre">${[[60,'1분'],[120,'2분'],[300,'5분']].map(([s,l])=>`<button class="chip plain ${!T.cus&&T.dur===s*1000?'on':''}" onclick="T.cus=false;setDur(${s})">${l}</button>`).join('')}${T.cus?`<span class="chip plain on cin"><input id="tmcus" type="number" inputmode="decimal" step="${T.cusU==='m'?'0.5':'1'}" min="0.1" max="${T.cusU==='m'?99:5940}" placeholder="${T.cusU==='m'?'분':'초'}" value="${esc(T.cusTxt)}" oninput="tmCus(this.value)" aria-label="타이머 ${T.cusU==='m'?'분':'초'}"><button type="button" class="cu" onclick="tmUnit()" aria-label="단위 바꾸기">${T.cusU==='m'?'분':'초'}</button></span>`:`<button class="chip plain" onclick="tmCustom()">커스텀</button>`}</div>
     <div class="btns"><button class="btn" onclick="setDur(T.dur/1000)">초기화</button><button class="btn pri" onclick="tmToggle()">${T.trun?'멈춤':'시작'}</button></div>`);
 }
 function loop(){const el=$('#tt');if(!el)return;
@@ -2120,20 +2142,24 @@ let onClose=null;
 function openSheet(html,cleanup){if(onClose){const f=onClose;onClose=null;f()}$('#sheet').classList.remove('full','tall');$('#sheet').style.transform='';$('#sheet').style.transition='';$('#sheet').innerHTML='<div class="grab"></div>'+html;$('#sw').classList.add('show');hbOpen();$('#sheet').scrollTop=0;onClose=cleanup||null}
 function closeSheetUI(){$('#sw').classList.remove('show');if(onClose){const f=onClose;onClose=null;f()}}
 function closeSheet(){closeSheetUI();hbClose()}
-/* 모바일 뒤로가기: 창(바텀시트)이 떠 있으면 그 창만 닫고, 기본 화면에서는 한 번 더 누르면 종료 */
+/* 모바일 뒤로가기
+   - 바텀시트가 떠 있으면: 그 창만 닫기
+   - 기본 화면이면: 처음엔 "한 번 더 누르면 종료" 안내, 곧바로 한 번 더 누르면 종료
+   브라우저는 '사용자가 만지기 전'에 쌓은 기록을 뒤로가기에서 건너뛰므로, 안전장치(guard)는 화면을 만질 때마다 필요하면 다시 쌓아요 */
 const HB={sheet:false,skip:0,reopen:false,armed:0};
+const hbSt=()=>{try{return history.state&&history.state.bg}catch(e){return null}};
 function hbPush(k){try{history.pushState({bg:k},'')}catch(e){}}
 function hbOpen(){if(HB.sheet)return;HB.sheet=true;if(HB.skip>0){HB.reopen=true;return}hbPush('sheet')}
 function hbClose(){if(!HB.sheet)return;HB.sheet=false;HB.reopen=false;HB.skip++;try{history.back()}catch(e){HB.skip--}}
-try{history.replaceState({bg:'base'},'')}catch(e){}
-/* 브라우저는 '사용자가 만지기 전'에 쌓은 기록은 뒤로가기에서 건너뛰어요 → 첫 터치 때 안전장치를 쌓아요 */
-let HG=false;function hbGuard(){if(HG)return;HG=true;hbPush('guard')}
+function hbGuard(){if(HB.sheet||HB.skip>0)return;const k=hbSt();if(!k||k==='base'){HB.armed=0;hbPush('guard')}}
+try{history.replaceState({bg:'base'},'');hbPush('guard')}catch(e){}
 ['pointerup','touchend','mouseup','keydown'].forEach(ev=>document.addEventListener(ev,hbGuard,{capture:true,passive:true}));
 window.addEventListener('popstate',()=>{
   if(HB.skip>0){HB.skip--;if(!HB.skip&&HB.sheet&&HB.reopen){HB.reopen=false;hbPush('sheet')}return}
   if(HB.sheet){HB.sheet=false;closeSheetUI();return}
-  if(Date.now()<HB.armed){HB.armed=0;history.back();return}
-  HB.armed=Date.now()+2200;hbPush('guard');toast('한 번 더 누르면 앱이 종료돼요',2000)});
+  const k=hbSt()||'base';
+  if(k==='base'&&Date.now()<HB.armed){HB.armed=0;history.back();return}
+  HB.armed=Date.now()+2500;toast('한 번 더 누르면 앱이 종료돼요',2000)});
 (function(){let d=null;const sh=()=>document.getElementById('sheet');
 document.addEventListener('pointerdown',e=>{const g=e.target.closest&&e.target.closest('.sheet .grab');if(!g||getComputedStyle(g).display==='none')return;d={y:e.clientY,t:Date.now(),dy:0};sh().style.transition='none';try{g.setPointerCapture(e.pointerId)}catch(_){}});
 document.addEventListener('pointermove',e=>{if(!d)return;d.dy=Math.max(0,e.clientY-d.y);sh().style.transform='translateY('+d.dy+'px)'});
