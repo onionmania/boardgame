@@ -1228,6 +1228,71 @@ html[data-theme] #tc.game .tchd{margin-bottom:6px}
 html[data-theme] #sheet:has(#sk) .fsx{top:auto}
 @media(min-width:900px){.dg .d-side{grid-column:1/-1}}
 @media(min-width:1100px){.d-side{grid-column:1/-1}}
+.avc{margin:0 -4px 8px;padding:12px}
+.chips.avn6{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.chips.avn6 .chip{justify-content:center;padding:0 2px;height:40px;font-size:13px}
+.avro{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.avro .chip{height:auto;min-height:52px;padding:7px 10px;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;border-radius:14px;text-align:left}
+.avro .chip b{font-size:14px}.avro .chip small{font-size:11px;opacity:.8;font-weight:500;line-height:1.25}
+.avsum{display:flex;flex-direction:column;gap:3px;margin-top:10px;font-size:12.5px;color:var(--sub);line-height:1.4}
+.avsum b{color:var(--text);margin-right:4px}
+.avls{margin-top:10px;display:flex;flex-direction:column;gap:4px}
+.avl{display:flex;gap:8px;padding:8px 10px;border-radius:12px;font-size:13.5px;line-height:1.45;color:var(--sub);word-break:keep-all}
+.avl i{flex:none;font-style:normal;font-weight:800;width:18px;color:var(--dim)}
+.avl.on{background:var(--a1);color:#fff;font-weight:700}.avl.on i{color:#fff}
+.avqs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.avq{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 2px;border-radius:14px;background:var(--soft);border:1px solid var(--line)}
+.avq small{font-size:11px;color:var(--sub)}.avq b{font-size:15px;white-space:nowrap}.avq em{font-style:normal;font-size:10px;color:var(--dim)}
+.avq.s{background:var(--a1);border-color:transparent}.avq.f{background:var(--fine,#ff5d7a);border-color:transparent}
+.avq.s *,.avq.f *{color:#fff}
+.avrej{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;font-size:13px}
+.banner.avbad{background:rgba(255,93,122,.14);border-color:rgba(255,93,122,.4)}
+[data-theme=brutal] .avq{border:2px solid #111;border-radius:8px;background:#fff}
+[data-theme=brutal] .avq.s{background:var(--a1)}[data-theme=brutal] .avq.f{background:var(--fine)}
+[data-theme=brutal] .avl.on{border:2px solid #111;border-radius:8px}
+[data-theme=brutal] .avro .chip{border-radius:8px}
+[data-theme=retro] .avq{border-radius:4px}
+.narui{display:flex;flex-direction:column;gap:8px}
+.narui .chip.full{width:100%;justify-content:center;height:42px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.narr{display:grid;grid-template-columns:64px repeat(3,minmax(0,1fr));gap:6px;align-items:center;font-size:12px;color:var(--sub)}
+.narr .chip{justify-content:center;padding:0 2px;height:36px;font-size:13px}
+.chips.onn{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.chips.onn .chip{justify-content:center;padding:0 2px;height:38px;font-size:13px}
+.onrs{display:flex;flex-direction:column}
+.onr{display:flex;align-items:center;gap:10px;padding:8px 2px;border-top:1px solid var(--soft);opacity:.55}
+.onr.on{opacity:1}
+.onr .e{flex:none;width:30px;display:grid;place-items:center}
+.onr .nm{flex:1;min-width:0}.onr .nm b{display:block;font-size:14px}.onr .nm small{display:block;font-size:11px;color:var(--sub);line-height:1.3}
+.onct.ok b{color:var(--a1)}.onct.bad b{color:var(--pinkt)}
+.gsc{margin:0 -4px 8px;padding:10px 12px}
+.gsr{display:flex;align-items:center;gap:8px;padding:8px 0}
+.gsr+.gsr{border-top:1px solid var(--soft)}
+.gsr .rk{flex:none;width:16px;text-align:center;font-size:12px;font-weight:800;color:var(--dim)}
+.gsr.top .rk{color:var(--gold)}
+.gsr .nm{flex:1;min-width:0;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gsr .sc{min-width:56px;text-align:center;font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}
+.gsr .sc.neg{color:var(--pinkt)}
+.gsr.top .sc{color:var(--gold)}
+.gsb{flex:none;width:44px;height:44px;border-radius:14px;background:var(--soft);font-size:22px;font-weight:700;display:grid;place-items:center;transition:transform .12s}
+.gsb:active{transform:scale(.92)}
+.chips.gsst{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.chips.gsst .chip{justify-content:center;padding:0;height:40px}
+[data-theme=brutal] .gsb{border:2px solid #111;border-radius:8px;background:#fff;box-shadow:2px 2px 0 #111}
+[data-theme=brutal] .gsb:active{transform:translate(2px,2px);box-shadow:none}
+[data-theme=brutal] .onr .e{filter:none}
+.onr .stepper{flex:none;width:112px}.onr .stepper button{width:30px;height:30px}
+
+.onrs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.onr{display:flex;flex-direction:column;align-items:stretch;gap:4px;padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--soft);opacity:.55}
+.onr.on{opacity:1}
+.onr .top{display:flex;align-items:center;gap:6px;min-width:0}
+.onr .top .e{width:22px;flex:none}
+.onr .top b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.onr>small{font-size:11px;color:var(--sub);line-height:1.3;min-height:29px;word-break:keep-all}
+.onr .stepper{width:100%;margin-top:2px}
+.onr .stepper button{width:32px;height:30px}
+[data-theme=brutal] .onr{border:2px solid #111;border-radius:8px;background:#fff}
+[data-theme=brutal] .onr.on{background:#ffd23f}
 </style>
 </head>
 <body>
@@ -1913,9 +1978,12 @@ function saveGame(id,hue){
 /* ---------- 도구 ---------- */
 VIEWS.tools=()=>`<div class="tg">
   <button class="card tool" onclick="openTimer()"><div class="ic">${emo('⏱️')}</div><b>스톱워치 · 타이머</b></button>
+  <button class="card tool" onclick="openGS()"><div class="ic">${emo('🔢')}</div><b>범용 점수판</b></button>
   <button class="card tool" onclick="openTC()"><div class="ic">${emo('🐉')}</div><b>티츄 점수판</b></button>
   <button class="card tool" onclick="openSK()"><div class="ic">${emo('🏴‍☠️')}</div><b>스컬킹 점수판</b></button>
   <button class="card tool" onclick="openSF()"><div class="ic">${emo('🕵️')}</div><b>스파이폴 점수판</b></button>
+  <button class="card tool" onclick="openAVN()"><div class="ic">${emo('⚔️')}</div><b>아발론 사회자</b></button>
+  <button class="card tool" onclick="openONW()"><div class="ic">${emo('🐺')}</div><b>늑대인간 사회자</b></button>
   <div class="card tool soon"><div class="ic">${emo('➕')}</div><b>다음 도구</b></div></div>`;
 
 /* 스톱워치·타이머 */
@@ -1947,7 +2015,7 @@ function swLap(){if(T.run)T.laps.unshift(swNow());else{T.acc=0;T.laps=[]}drawTim
 function setDur(s){T.dur=s*1000;T.left=T.dur;T.trun=false;T.done=false;drawTimer()}
 function tmToggle(){initAudio();if(T.trun){T.left=T.end-Date.now();T.trun=false}else{if(T.left<=0)T.left=T.dur;T.end=Date.now()+T.left;T.trun=true;T.done=false}drawTimer()}
 function initAudio(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){}}
-function beep(){try{navigator.vibrate&&navigator.vibrate([300,120,300])}catch(e){}try{if(!actx)return;[0,.35,.7].forEach(t=>{const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=880;o.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(.25,actx.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,actx.currentTime+t+.3);o.start(actx.currentTime+t);o.stop(actx.currentTime+t+.3)})}catch(e){}}
+function beep(){try{navigator.vibrate&&navigator.vibrate([200,100,200,100,200])}catch(e){}try{if(!actx)return;const tn=(f,t,d)=>{const o=actx.createOscillator(),g=actx.createGain(),s0=actx.currentTime+t;o.type='sine';o.frequency.value=f;o.connect(g);g.connect(actx.destination);g.gain.setValueAtTime(.0001,s0);g.gain.exponentialRampToValueAtTime(.24,s0+.01);g.gain.exponentialRampToValueAtTime(.0001,s0+d);o.start(s0);o.stop(s0+d+.05)};for(let r=0;r<3;r++){tn(880,r*.75,.22);tn(1174.7,r*.75+.16,.34)}}catch(e){}}
 
 /* 스컬킹 (몇 장부터 몇 장까지 할지 고를 수 있음. 점수 계산의 '라운드 수'는 그 판의 카드 장수) */
 let skSel=[],skFrom=5,skTo=9;
@@ -2027,12 +2095,12 @@ function skZero(){const c=skCell;if(!c)return;skPush();const k=S.sk,z=(k.zeros=k
 /* 점수판 하위 벌금 대상: 기본 1명(6명 이상이면 2명). 동점이면 공동 하위를 모두 포함, 전원 동점이면 고르지 않음 */
 /* 점수판 → 벌금 기록: 하위 몇 명에게 벌금을 줄지 먼저 고르는 창 */
 let FC=null;
-function fineAsk(g,pl,tot,back){const mx=Math.min(4,pl.length-1);FC={g,pl,tot,back,n:Math.min(pl.length>=6?2:1,mx),mx};drawFineAsk()}
+function fineAsk(g,pl,tot,back,show){const mx=Math.min(4,pl.length-1);FC={g,pl,tot,back,show:show||tot,n:Math.min(pl.length>=6?2:1,mx),mx};drawFineAsk()}
 function fineN(n){FC.n=n;drawFineAsk()}
 function drawFineAsk(){const c=FC,low=lowestFine(c.pl,c.tot,c.n),order=[...c.pl].sort((a,b)=>c.tot[a]-c.tot[b]);
   openSheet(`<h2>벌금을 몇 명에게 기록할까요?</h2><p class="lead">점수가 낮은 사람부터 정해져요 · 동점이면 함께 포함돼요</p>
   <div class="chips tmpre" style="grid-template-columns:repeat(${c.mx},minmax(0,1fr))">${Array.from({length:c.mx},(_,i)=>`<button class="chip plain ${c.n===i+1?'on':''}" onclick="fineN(${i+1})">${i+1}명</button>`).join('')}</div>
-  <div class="card" style="margin:14px 0 0;padding:12px 14px">${order.map(id=>`<div class="rec" style="padding:7px 0"><div class="mid"><div class="t" style="${low.includes(id)?'color:var(--pinkt)':''}">${esc(mem(id).name)}</div></div><div class="amt" style="${low.includes(id)?'':'color:var(--dim)'}">${c.tot[id]}점${low.includes(id)?' · 벌금':''}</div></div>`).join('')}</div>
+  <div class="card" style="margin:14px 0 0;padding:12px 14px">${order.map(id=>`<div class="rec" style="padding:7px 0"><div class="mid"><div class="t" style="${low.includes(id)?'color:var(--pinkt)':''}">${esc(mem(id).name)}</div></div><div class="amt" style="${low.includes(id)?'':'color:var(--dim)'}">${c.show[id]}점${low.includes(id)?' · 벌금':''}</div></div>`).join('')}</div>
   ${low.length?'':'<p class="rcap">모두 점수가 같아서 벌금 대상이 없어요</p>'}
   <div class="btns"><button class="btn" onclick="FC.back()">뒤로</button><button class="btn pri" onclick="fineGo()">벌금 기록하기</button></div>`)}
 function fineGo(){const c=FC,low=lowestFine(c.pl,c.tot,c.n);toRecord(c.g?c.g.id:null,c.pl,low,fineToast(low,c.pl,c.n))}
@@ -2184,6 +2252,179 @@ function sfSave(){if(!sfOk())return;const k=S.sf,c=SFI;sfRedoSt=[];k.rounds.push
 function sfUndo(){if(!S.sf.rounds.length)return;sfRedoSt.push(S.sf.rounds.pop());save();drawSF()}
 function sfRedo(){if(!sfRedoSt.length)return;S.sf.rounds.push(sfRedoSt.pop());save();drawSF()}
 function sfToFine(){const g=S.games.find(x=>x.name.replace(/\s/g,'').includes('스파이폴'));fineAsk(g,S.sf.players,sfTotals(),openSF)}
+
+/* ---------- 레지스탕스 아발론: 사회자(음성 진행) + 원정 기록판 ----------
+   인원별 선/악: 5(3/2) 6(4/2) 7(4/3) 8(5/3) 9(6/3) 10(6/4)
+   원정대 인원: 아래 AVQ. 7명 이상이면 4번째 원정은 실패 카드 2장이어야 실패
+   원정대 구성 투표가 5번 연속 부결되면 악의 승리. 원정 3번 성공 시 암살자가 멀린을 맞히면 악의 역전승 */
+const AVQ={5:[2,3,2,3,3],6:[2,3,4,3,4],7:[2,3,3,4,4],8:[3,4,4,5,5],9:[3,4,4,5,5],10:[3,4,4,5,5]},AVE={5:2,6:2,7:3,8:3,9:3,10:4};
+const AVR=[['perc','퍼시벌','선 · 멀린을 알아봐요'],['morg','모르가나','악 · 퍼시벌에게 멀린인 척'],['mord','모드레드','악 · 멀린에게 안 보여요'],['ober','오베론','악 · 동료와 서로 몰라요']];
+const AVN={n:7,perc:false,morg:false,mord:false,ober:false,gap:5,q:[0,0,0,0,0],rej:0,on:false,idx:-1,tok:0,tm:0};
+try{const v=JSON.parse(localStorage.getItem('bgclub-avalon')||'null');if(v)Object.assign(AVN,v,{on:false,idx:-1,tok:0,tm:0})}catch(e){}
+function avKeep(){try{const{on,idx,tok,tm,...o}=AVN;localStorage.setItem('bgclub-avalon',JSON.stringify(o))}catch(e){}}
+const avEvilSp=()=>1+(AVN.morg?1:0)+(AVN.mord?1:0)+(AVN.ober?1:0);
+function avLines(){const a=AVN,L=[],cl=t=>({t,w:2});
+  L.push('모두 눈을 감고, 주먹 쥔 손을 앞으로 내밀어 주세요.');
+  L.push((a.ober?'오베론을 제외한 ':'')+'악의 하수인들은 눈을 뜨고, 서로를 확인하세요.');
+  L.push(cl('악의 하수인들은 눈을 감으세요.'));
+  L.push({t:(a.mord?'모드레드를 제외한 ':'')+'악의 하수인들은 눈을 감은 채, 엄지를 들어 주세요.',w:3});
+  L.push('멀린은 눈을 뜨고, 엄지를 든 악의 하수인들을 확인하세요.');
+  L.push(cl('멀린은 눈을 감으세요. 악의 하수인들은 엄지를 내리세요.'));
+  if(a.perc){L.push({t:a.morg?'멀린과 모르가나는 눈을 감은 채, 엄지를 들어 주세요.':'멀린은 눈을 감은 채, 엄지를 들어 주세요.',w:3});
+    L.push(a.morg?'퍼시벌은 눈을 뜨고, 엄지를 든 두 사람을 확인하세요. 누가 진짜 멀린인지는 알 수 없습니다.':'퍼시벌은 눈을 뜨고, 엄지를 든 멀린을 확인하세요.');
+    L.push(cl(a.morg?'퍼시벌은 눈을 감으세요. 멀린과 모르가나는 엄지를 내리세요.':'퍼시벌은 눈을 감으세요. 멀린은 엄지를 내리세요.'))}
+  L.push({t:'모두 주먹을 거두고, 눈을 뜨세요. 게임을 시작합니다.',w:0});return L}
+function avSet(k,v){AVN[k]=v;if(k==='n'){AVN.q=[0,0,0,0,0];AVN.rej=0}avStop();avKeep();drawAVN()}
+function avRole(k){if(!AVN[k]&&k!=='perc'&&avEvilSp()>=AVE[AVN.n]){toast(AVN.n+'명일 땐 악이 '+AVE[AVN.n]+'명이라 더 넣을 수 없어요');return}avSet(k,!AVN[k])}
+function avQ(i){AVN.q[i]=(AVN.q[i]+1)%3;if(AVN.q[i])AVN.rej=0;avKeep();drawAVN()}
+function avRej(d){AVN.rej=Math.max(0,Math.min(5,AVN.rej+d));avKeep();drawAVN()}
+function avNew(){AVN.q=[0,0,0,0,0];AVN.rej=0;avKeep();drawAVN()}
+function openAVN(){openSheet('<div id="avn"></div>',avStop);$('#sheet').classList.add('tall');drawAVN()}
+function drawAVN(){const el=$('#avn');if(!el)return;NAR.draw=drawAVN;const keep=$('#sheet').scrollTop,a=AVN;
+  while(avEvilSp()>AVE[a.n]){if(a.ober)a.ober=false;else if(a.mord)a.mord=false;else a.morg=false}
+  const ev=AVE[a.n],gd=a.n-ev,L=avLines(),sz=AVQ[a.n],ok=a.q.filter(x=>x===1).length,ng=a.q.filter(x=>x===2).length;
+  const good=['멀린',...(a.perc?['퍼시벌']:[])],evil=['암살자',...(a.morg?['모르가나']:[]),...(a.mord?['모드레드']:[]),...(a.ober?['오베론']:[])];
+  const res=a.rej>=5?['bad','😈 투표가 5번 연속 부결됐어요. 악의 승리!']:ng>=3?['bad','😈 원정 3번 실패. 악의 승리!']:ok>=3?['good','🗡️ 원정 3번 성공! 마지막으로 암살자가 멀린을 지목하세요. 맞히면 악의 역전승이에요.']:null;
+  el.innerHTML=`<div class="tchd"><h2>아발론 사회자</h2><span class="sp"></span><button class="fsx" aria-label="닫기" onclick="closeSheet()">✕</button></div>
+  <div class="card avc"><div class="sfq" style="margin-top:0">① 인원</div>
+    <div class="chips avn6">${[5,6,7,8,9,10].map(n=>`<button class="chip plain ${a.n===n?'on':''}" onclick="avSet('n',${n})">${n}명</button>`).join('')}</div>
+    <div class="sfq">② 추가 역할 <span class="dim" style="font-weight:500">(멀린·암살자는 항상 포함)</span></div>
+    <div class="avro">${AVR.map(([k,l,d])=>`<button class="chip plain ${a[k]?'on':''}" onclick="avRole('${k}')"><b>${l}</b><small>${d}</small></button>`).join('')}</div>
+    <div class="avsum"><span><b>선 ${gd}명</b> ${good.join(' · ')}${gd-good.length>0?` · 아서의 신하 ${gd-good.length}`:''}</span><span><b>악 ${ev}명</b> ${evil.join(' · ')}${ev-evil.length>0?` · 하수인 ${ev-evil.length}`:''}</span></div>
+    ${a.morg&&!a.perc?'<p class="rcap">모르가나는 퍼시벌과 함께 넣어야 의미가 있어요</p>':''}
+  </div>
+  <div class="card avc"><div class="sfq" style="margin-top:0">③ 밤 진행</div>${narUI()}
+    <button class="btn ${NAR.on?'':'pri'} full" style="margin-top:10px" onclick="avPlay()">${NAR.on?'■ 멈춤':'🔊 음성으로 진행 시작'}</button>
+    <div class="avls">${L.map((t,i)=>`<div class="avl ${NAR.on&&NAR.idx===i?'on':''}"><i>${i+1}</i><span>${esc(typeof t==='string'?t:t.t)}</span></div>`).join('')}</div>
+  </div>
+  <div class="card avc"><div class="sfq" style="margin-top:0">④ 원정 기록 <span class="dim" style="font-weight:500">· 누르면 성공 → 실패 → 비움</span></div>
+    <div class="avqs">${sz.map((n,i)=>`<button class="avq ${a.q[i]===1?'s':a.q[i]===2?'f':''}" onclick="avQ(${i})"><small>${i+1}차</small><b>${a.q[i]===1?'성공':a.q[i]===2?'실패':n+'명'}</b><em>${a.q[i]?n+'명':(i===3&&a.n>=7?'실패 2장':'　')}</em></button>`).join('')}</div>
+    ${a.n>=7?'<p class="rcap" style="margin-top:8px">4차 원정은 실패 카드가 <b>2장 이상</b>이어야 실패예요</p>':''}
+    <div class="avrej"><span>원정대 투표 부결 <b>${a.rej} / 5</b></span><div class="stepper"><button onclick="avRej(-1)">−</button><span>${a.rej}</span><button onclick="avRej(1)">+</button></div></div>
+    ${res?`<div class="banner av${res[0]}" style="margin:10px 0 0"><div>${res[1]}</div></div>`:''}
+  </div>
+  <div class="btns"><button class="btn danger" onclick="avNew()">원정 기록 초기화</button></div>`;
+  $('#sheet').scrollTop=keep}
+
+/* ---------- 공통 음성 사회자 (아발론·늑대인간) ---------- */
+const NAR={on:false,idx:-1,tok:0,tm:0,gap:5,rate:.95,voice:'',get:null,draw:null};
+try{const v=JSON.parse(localStorage.getItem('bgclub-nar')||'null');if(v)Object.assign(NAR,v,{on:false,idx:-1,tok:0,tm:0,get:null,draw:null})}catch(e){}
+const narKeep=()=>{try{localStorage.setItem('bgclub-nar',JSON.stringify({gap:NAR.gap,rate:NAR.rate,voice:NAR.voice}))}catch(e){}};
+const narVoices=()=>{try{return speechSynthesis.getVoices().filter(v=>/^ko/i.test(v.lang))}catch(e){return[]}};
+function narVoice(){const vs=narVoices();if(!vs.length)return null;const f=vs.find(x=>x.name===NAR.voice);if(f)return f;
+  const sc=x=>(/premium|enhanced|neural|natural|online/i.test(x.name)?4:0)+(/google/i.test(x.name)?2:0)+(x.localService?0:1);return [...vs].sort((a,b)=>sc(b)-sc(a))[0]}
+try{speechSynthesis.onvoiceschanged=()=>{if(NAR.draw&&!NAR.on)NAR.draw()}}catch(e){}
+function narStop(){NAR.tok++;clearTimeout(NAR.tm);NAR.on=false;NAR.idx=-1;try{speechSynthesis.cancel()}catch(e){}}
+function narSpeak(text,done){try{const u=new SpeechSynthesisUtterance(text),v=narVoice();u.lang='ko-KR';if(v)u.voice=v;u.rate=NAR.rate;u.pitch=1;u.onend=done;u.onerror=done;speechSynthesis.speak(u);return true}catch(e){return false}}
+function narSay(i){const L=NAR.get().map(l=>typeof l==='string'?{t:l}:l),tok=NAR.tok;if(i>=L.length){NAR.on=false;NAR.idx=-1;NAR.draw();return}
+  NAR.idx=i;NAR.draw();const e=document.querySelector('.avl.on');if(e)e.scrollIntoView({block:'nearest',behavior:'smooth'});
+  const wait=(L[i].w!=null?L[i].w:NAR.gap)*1000,est=L[i].t.length*190+600;let fin=false;
+  const next=ms=>{if(fin||tok!==NAR.tok)return;fin=true;clearTimeout(NAR.tm);NAR.tm=setTimeout(()=>{if(tok===NAR.tok)narSay(i+1)},ms)};
+  if(!narSpeak(L[i].t,()=>next(wait)))next(est+wait);else NAR.tm=setTimeout(()=>next(wait),est*2+4000)}
+function narPlay(get,draw){if(NAR.on){narStop();draw();return}narStop();NAR.get=get;NAR.draw=draw;NAR.on=true;try{speechSynthesis.resume()}catch(e){}narSay(0)}
+function narSet(k,v){NAR[k]=v;narKeep();if(NAR.draw)NAR.draw()}
+function narNext(){const vs=narVoices();if(!vs.length){toast('이 기기에는 한국어 음성이 없어요');return}const cur=narVoice(),i=vs.indexOf(cur);NAR.voice=vs[(i+1)%vs.length].name;narKeep();narTest();if(NAR.draw)NAR.draw()}
+function narTest(){try{speechSynthesis.cancel()}catch(e){}narSpeak('안녕하세요. 지금부터 사회자가 밤 진행을 도와드릴게요.',()=>{})}
+function narUI(){const v=narVoice(),n=narVoices().length;
+  return `<div class="narui"><button class="chip plain full" onclick="narNext()">🗣 ${v?esc(v.name.replace(/^(Microsoft|Google)\s*/,'')):'기본 음성'}${n>1?' · 누르면 다음 목소리':''}</button>
+  <div class="narr"><span>속도</span>${[[.85,'느리게'],[.95,'보통'],[1.1,'빠르게']].map(([r,l])=>`<button class="chip plain ${NAR.rate===r?'on':''}" onclick="narSet('rate',${r})">${l}</button>`).join('')}</div>
+  <div class="narr"><span>문장 사이</span>${[[3,'3초'],[5,'5초'],[8,'8초']].map(([g,l])=>`<button class="chip plain ${NAR.gap===g?'on':''}" onclick="narSet('gap',${g})">${l}</button>`).join('')}</div></div>`}
+const avStop=narStop;
+function avPlay(){narPlay(avLines,drawAVN)}
+
+/* ---------- 한밤의 늑대인간 사회자 (3–10명, 카드 = 인원 + 3장) ---------- */
+const ONR=[
+ ['doppel','도플갱어','🪞',1,'다른 사람의 카드를 보고 그 역할이 돼요'],
+ ['wolf','늑대인간','🐺',2,'서로를 확인해요'],
+ ['minion','하수인','🧟',1,'늑대인간을 알아봐요'],
+ ['mason','프리메이슨','🤝',2,'둘이 함께 서로를 확인해요'],
+ ['seer','예언자','🔮',1,'카드 1장 또는 가운데 2장을 봐요'],
+ ['robber','강도','🦹',1,'다른 사람과 카드를 바꿔요'],
+ ['trouble','말썽쟁이','🤪',1,'다른 두 사람의 카드를 바꿔요'],
+ ['drunk','주정뱅이','🍺',1,'가운데 카드와 바꿔요'],
+ ['insomn','불면증 환자','😳',1,'마지막에 내 카드를 확인해요'],
+ ['hunter','사냥꾼','🏹',1,'밤에는 하는 일이 없어요'],
+ ['tanner','무두장이','🧵',1,'밤에는 하는 일이 없어요'],
+ ['villager','마을 사람','🧑‍🌾',3,'밤에는 하는 일이 없어요']];
+const ONP=['wolf','wolf','seer','robber','trouble','villager','villager','hunter','tanner','drunk','insomn','villager','minion'];
+const ONW={n:5,r:{}};
+const onPreset=n=>{const r={};ONP.slice(0,n+3).forEach(k=>r[k]=(r[k]||0)+1);return r};
+ONW.r=onPreset(5);
+try{const v=JSON.parse(localStorage.getItem('bgclub-onuw')||'null');if(v&&v.n&&v.r){ONW.n=v.n;ONW.r=v.r}}catch(e){}
+const onKeep=()=>{try{localStorage.setItem('bgclub-onuw',JSON.stringify({n:ONW.n,r:ONW.r}))}catch(e){}};
+const onCnt=()=>Object.values(ONW.r).reduce((a,b)=>a+b,0);
+function onLines(){const r=ONW.r,d=r.doppel>0,L=[],has=k=>(r[k]||0)>0,dp=d?' 도플갱어가 이 역할을 복사했다면 함께 하세요.':'',cl={w:2};
+  L.push('모두 눈을 감으세요. 지금부터 밤이 시작됩니다.');
+  if(d){L.push('도플갱어는 눈을 뜨고, 다른 플레이어 한 명의 카드를 확인하세요. 지금부터 그 역할이 됩니다.');L.push({t:'도플갱어는 눈을 감으세요.',w:2})}
+  if(has('wolf')){L.push('늑대인간은 눈을 뜨고, 서로를 확인하세요.'+dp+' 늑대인간이 혼자라면, 가운데 카드 한 장을 확인할 수 있습니다.');L.push({t:'늑대인간은 눈을 감으세요.',w:2})}
+  if(has('minion')){L.push({t:'늑대인간은 눈을 감은 채 엄지를 들어 주세요.',w:3});L.push('하수인은 눈을 뜨고, 엄지를 든 늑대인간을 확인하세요.'+dp);L.push({t:'하수인은 눈을 감으세요. 늑대인간은 엄지를 내리세요.',w:2})}
+  if(has('mason')){L.push('프리메이슨은 눈을 뜨고, 서로를 확인하세요.'+dp);L.push({t:'프리메이슨은 눈을 감으세요.',w:2})}
+  if(has('seer')){L.push('예언자는 눈을 뜨고, 다른 플레이어 한 명의 카드, 또는 가운데 카드 두 장을 확인하세요.'+dp);L.push({t:'예언자는 눈을 감으세요.',w:2})}
+  if(has('robber')){L.push('강도는 눈을 뜨고, 다른 플레이어 한 명과 카드를 바꾼 뒤, 새 카드를 확인하세요.'+dp);L.push({t:'강도는 눈을 감으세요.',w:2})}
+  if(has('trouble')){L.push('말썽쟁이는 눈을 뜨고, 다른 두 플레이어의 카드를 서로 바꾸세요.'+dp);L.push({t:'말썽쟁이는 눈을 감으세요.',w:2})}
+  if(has('drunk')){L.push('주정뱅이는 눈을 뜨고, 가운데 카드 한 장과 자기 카드를 바꾸세요. 새 카드는 보지 않습니다.'+dp);L.push({t:'주정뱅이는 눈을 감으세요.',w:2})}
+  if(has('insomn')){L.push('불면증 환자는 눈을 뜨고, 지금 자신의 카드를 확인하세요.'+dp);L.push({t:'불면증 환자는 눈을 감으세요.',w:2})}
+  L.push({t:'모두 눈을 뜨세요. 아침이 밝았습니다. 토론을 시작하세요.',w:0});return L}
+function onSet(n){ONW.n=n;ONW.r=onPreset(n);narStop();onKeep();drawONW()}
+function onAdj(k,d){const m=ONR.find(x=>x[0]===k)[3],v=Math.max(0,Math.min(m,(ONW.r[k]||0)+d));if(v)ONW.r[k]=v;else delete ONW.r[k];narStop();onKeep();drawONW()}
+function onReset(){ONW.r=onPreset(ONW.n);narStop();onKeep();drawONW()}
+const DT={dur:300000,left:300000,run:false,end:0,iv:0};
+const dtLeft=()=>DT.run?Math.max(0,DT.end-Date.now()):DT.left;
+const dtFmt=ms=>{const t=Math.ceil(ms/1000);return pad2(Math.floor(t/60))+':'+pad2(t%60)};
+function dtStop(){clearInterval(DT.iv);DT.iv=0;if(DT.run){DT.left=dtLeft();DT.run=false}}
+function dtTick(){const e=$('#dtv');if(!e)return;const l=dtLeft();e.textContent=dtFmt(l);if(DT.run&&l<=0){DT.run=false;DT.left=0;clearInterval(DT.iv);DT.iv=0;beep();drawONW()}}
+function dtAdj(m){const nd=Math.max(60000,Math.min(30*60000,DT.dur+m*60000)),df=nd-DT.dur;DT.dur=nd;if(DT.run)DT.end+=df;else DT.left=nd;drawONW()}
+function dtToggle(){initAudio();if(DT.run){DT.left=dtLeft();DT.run=false;clearInterval(DT.iv);DT.iv=0}else{if(DT.left<=0)DT.left=DT.dur;DT.end=Date.now()+DT.left;DT.run=true;clearInterval(DT.iv);DT.iv=setInterval(dtTick,200)}drawONW()}
+function dtReset(){dtStop();DT.left=DT.dur;drawONW()}
+function openONW(){openSheet('<div id="onw"></div>',()=>{narStop();dtStop()});$('#sheet').classList.add('tall');drawONW()}
+function drawONW(){const el=$('#onw');if(!el)return;NAR.draw=drawONW;const keep=$('#sheet').scrollTop,need=ONW.n+3,have=onCnt(),L=onLines().map(l=>typeof l==='string'?l:l.t),ok=have===need;
+  el.innerHTML=`<div class="tchd"><h2>늑대인간 사회자</h2><span class="sp"></span><button class="fsx" aria-label="닫기" onclick="closeSheet()">✕</button></div>
+  <div class="card avc"><div class="sfq" style="margin-top:0">① 인원</div>
+    <div class="chips onn">${[3,4,5,6,7,8,9,10].map(n=>`<button class="chip plain ${ONW.n===n?'on':''}" onclick="onSet(${n})">${n}명</button>`).join('')}</div>
+    <div class="sfq">② 역할 카드 <span class="dim" style="font-weight:500">· 인원 + 3장 (가운데 3장 포함)</span></div>
+    <div class="onrs">${ONR.map(([k,l,e,m,d])=>`<div class="onr ${ONW.r[k]?'on':''}"><div class="top"><span class="e">${emo(e)}</span><b>${l}</b></div><small>${d}</small><div class="stepper"><button onclick="onAdj('${k}',-1)" aria-label="${l} 줄이기">−</button><span>${ONW.r[k]||0}</span><button onclick="onAdj('${k}',1)" aria-label="${l} 늘리기">+</button></div></div>`).join('')}</div>
+    <div class="avrej"><span class="onct ${ok?'ok':'bad'}">카드 <b>${have} / ${need}장</b> ${ok?'✔':have<need?`· ${need-have}장 더 필요`:`· ${have-need}장 줄여요`}</span><button class="chip plain" onclick="onReset()">추천 구성</button></div>
+    ${(ONW.r.mason||0)===1?'<p class="rcap">프리메이슨은 보통 2장을 함께 넣어요</p>':''}
+  </div>
+  <div class="card avc"><div class="sfq" style="margin-top:0">③ 밤 진행</div>${narUI()}
+    <button class="btn ${NAR.on?'':'pri'} full" style="margin-top:10px" ${ok||NAR.on?'':'disabled'} onclick="narPlay(onLines,drawONW)">${NAR.on?'■ 멈춤':ok?'🔊 음성으로 진행 시작':'카드 수를 맞춰 주세요'}</button>
+    <div class="avls">${L.map((t,i)=>`<div class="avl ${NAR.on&&NAR.idx===i?'on':''}"><i>${i+1}</i><span>${esc(t)}</span></div>`).join('')}</div>
+  </div>
+  <div class="card sftm"><button class="chip plain" aria-label="1분 줄이기" ${DT.dur<=60000?'disabled':''} onclick="dtAdj(-1)">−</button>
+    <div class="v"><small>⏱️ 토론 타이머 · ${DT.dur/60000}분</small><b id="dtv">${dtFmt(dtLeft())}</b></div>
+    <button class="chip plain" aria-label="1분 늘리기" ${DT.dur>=30*60000?'disabled':''} onclick="dtAdj(1)">+</button>
+    <div class="st"><button class="btn ${DT.run?'':'pri'}" onclick="dtToggle()">${DT.run?'멈춤':'시작'}</button><button class="btn" onclick="dtReset()">초기화</button></div></div>`;
+  $('#sheet').scrollTop=keep}
+
+/* ---------- 범용 점수판 (사람별 점수 더하고 빼기) ---------- */
+let GSsel=[];const GS={players:[],scores:{},step:1,low:false,hist:[],redo:[]};
+try{const v=JSON.parse(localStorage.getItem('bgclub-gs')||'null');if(v&&v.players)Object.assign(GS,v)}catch(e){}
+const gsKeep=()=>{try{localStorage.setItem('bgclub-gs',JSON.stringify({players:GS.players,scores:GS.scores,step:GS.step,low:GS.low,hist:GS.hist.slice(-60),redo:GS.redo.slice(-60)}))}catch(e){}};
+function gsPush(){GS.hist.push(JSON.stringify(GS.scores));if(GS.hist.length>100)GS.hist.shift();GS.redo=[]}
+function gsAdd(p,sg){gsPush();GS.scores[p]=(GS.scores[p]||0)+sg*GS.step;gsKeep();drawGS()}
+function gsUndo(){if(!GS.hist.length)return;GS.redo.push(JSON.stringify(GS.scores));GS.scores=JSON.parse(GS.hist.pop());gsKeep();drawGS()}
+function gsRedo(){if(!GS.redo.length)return;GS.hist.push(JSON.stringify(GS.scores));GS.scores=JSON.parse(GS.redo.pop());gsKeep();drawGS()}
+function gsPick(id){const i=GSsel.indexOf(id);if(i>=0)GSsel.splice(i,1);else if(GSsel.length<10)GSsel.push(id);else toast('최대 10명이에요');drawGS()}
+function gsStart(){GS.players=[...GSsel];GS.scores={};GS.hist=[];GS.redo=[];gsKeep();drawGS()}
+function gsNew(){GS.players=[];GS.scores={};GS.hist=[];GS.redo=[];gsKeep();openGS()}
+function gsFine(){const t={},sh={};GS.players.forEach(p=>{sh[p]=GS.scores[p]||0;t[p]=GS.low?-sh[p]:sh[p]});fineAsk(null,GS.players,t,openGS,sh)}
+function openGS(){GS.players=GS.players.filter(p=>S.members.some(m=>m.id===p));openSheet('<div id="gs"></div>');$('#sheet').classList.add('tall');drawGS()}
+function drawGS(){const el=$('#gs');if(!el)return;const keep=$('#sheet').scrollTop;
+  if(!GS.players.length){
+    el.innerHTML=`<div class="tchd"><h2>범용 점수판</h2><span class="sp"></span><button class="fsx" aria-label="닫기" onclick="closeSheet()">✕</button></div>
+    <div class="sec" style="margin-top:4px">함께하는 사람 (2–10명)</div>${activeMembers().length?'':'<div class="empty">회원이 없어요. ⚙ 설정에서 회원을 먼저 추가해 주세요</div>'}
+    <div class="chips fitc">${activeMembers().map(m=>`<button class="chip ${GSsel.includes(m.id)?'on':''}" onclick="gsPick('${m.id}')">${av(m,1)}${esc(m.name)}</button>`).join('')}</div>
+    <div class="btns"><button class="btn pri" ${GSsel.length>=2?'':'disabled'} onclick="gsStart()">${GSsel.length?GSsel.length+'명으로 ':''}시작</button></div>`;fitPk();$('#sheet').scrollTop=keep;return}
+  const pl=GS.players,sc=p=>GS.scores[p]||0,key=p=>GS.low?-sc(p):sc(p),vals=[...new Set(pl.map(key))].sort((a,b)=>b-a),rank=p=>vals.indexOf(key(p))+1,allSame=vals.length===1;
+  const ic=(d,t)=>`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  el.innerHTML=`<div class="tchd"><h2>범용 점수판</h2><span class="sp"></span><button class="chip plain ic" aria-label="실행 취소" ${GS.hist.length?'':'disabled'} onclick="gsUndo()">${ic('<path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>')}</button><button class="chip plain ic" aria-label="다시 실행" ${GS.redo.length?'':'disabled'} onclick="gsRedo()">${ic('<path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/>')}</button><button class="fsx" aria-label="닫기" onclick="closeSheet()">✕</button></div>
+  <div class="card gsc">${pl.map(p=>`<div class="gsr ${!allSame&&rank(p)===1?'top':''}"><span class="rk">${rank(p)}</span>${av(mem(p),1)}<b class="nm">${esc(mem(p).name)}</b><button class="gsb" onclick="gsAdd('${p}',-1)" aria-label="${esc(mem(p).name)} 빼기">−</button><b class="sc ${sc(p)<0?'neg':''}">${sc(p)}</b><button class="gsb" onclick="gsAdd('${p}',1)" aria-label="${esc(mem(p).name)} 더하기">+</button></div>`).join('')}</div>
+  <div class="card gsc"><div class="sfq" style="margin-top:0">한 번에 바뀌는 점수</div>
+    <div class="chips gsst">${[1,5,10,50,100].map(v=>`<button class="chip plain ${GS.step===v?'on':''}" onclick="GS.step=${v};gsKeep();drawGS()">${v}</button>`).join('')}</div>
+    <div class="sfq">이기는 방식</div>
+    <div class="chips" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button class="chip plain ${GS.low?'':'on'}" onclick="GS.low=false;gsKeep();drawGS()">점수가 높을수록</button><button class="chip plain ${GS.low?'on':''}" onclick="GS.low=true;gsKeep();drawGS()">점수가 낮을수록</button></div></div>
+  <div class="btns"><button class="btn danger" onclick="confirmSheet('새 게임을 시작할까요?','점수가 모두 지워져요.','새 게임',gsNew,openGS)">새 게임</button><button class="btn" onclick="gsFine()">벌금 기록하기</button></div>`;
+  $('#sheet').scrollTop=keep}
 
 /* ---------- 시트 / 비밀번호 / 확인 ---------- */
 let onClose=null;
