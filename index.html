@@ -1226,6 +1226,8 @@ html[data-theme=retro] .tchd .chip.ic,html[data-theme=retro] .tchd .fsx{width:36
 html[data-theme] #sk .tchd,html[data-theme] #sf .tchd{margin-bottom:14px}
 html[data-theme] #tc.game .tchd{margin-bottom:6px}
 html[data-theme] #sheet:has(#sk) .fsx{top:auto}
+@media(min-width:900px){.dg .d-side{grid-column:1/-1}}
+@media(min-width:1100px){.d-side{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -1550,13 +1552,10 @@ VIEWS.dash=()=>{
   S.records.forEach(r=>{const mo=months.find(x=>r.date.startsWith(x.k));if(mo)mo.v+=recTotal(r)});
   const maxMo=Math.max(1,...months.map(x=>x.v));
   const recent=[...S.records].sort((a,b)=>b.date.localeCompare(a.date)||b.at-a.at).slice(0,5);
-  const lastP={};S.records.forEach(r=>{if(!lastP[r.gameId]||r.date>lastP[r.gameId])lastP[r.gameId]=r.date});
-  const idle=Object.entries(lastP).filter(([id])=>S.games.some(g=>g.id===id)).map(([id,d])=>({g:game(id),d,days:Math.max(0,Math.round((new Date(todayStr()+'T00:00:00')-new Date(d+'T00:00:00'))/864e5))})).sort((a,b)=>b.days-a.days||a.g.name.localeCompare(b.g.name,'ko'))[0];
   const hot3=Object.entries(st.pg).filter(([id])=>game(id)).map(([id,v])=>({g:game(id),plays:v.plays})).filter(x=>x.plays>0).sort((a,b)=>b.plays-a.plays||a.g.name.localeCompare(b.g.name,'ko')).slice(0,3);
   const nRec=S.records.length;
   /* 연속 참석: 기록이 있는 날(모임)을 기준으로, 연달아 나온 최대 횟수 */
   const days=[...new Set(S.records.map(r=>r.date))].sort();
-  const stk=activeMembers().map(m=>{let best=0,run=0;days.forEach(d=>{if(S.records.some(r=>r.date===d&&r.players.includes(m.id))){run++;if(run>best)best=run}else run=0});return {m,best,now:run}}).filter(x=>x.best>=2).sort((a,b)=>b.best-a.best||b.now-a.now||a.m.name.localeCompare(b.m.name,'ko')).slice(0,3);
   /* 단짝 승률: 팀 게임에서 벌금 낸 사람들이 진 팀, 나머지가 이긴 팀. 같은 팀(2명이든 3명이든 전원)이 게임별로 몇 번 이겼는지 */
   const pairs={};
   S.records.forEach(r=>{const g=game(r.gameId);if(!g||!g.team||!r.fines.length)return;
@@ -1566,7 +1565,7 @@ VIEWS.dash=()=>{
   const pr=Object.values(pairs).filter(x=>x.w>0).sort((a,b)=>b.w-a.w||b.w/b.n-a.w/a.n||a.n-b.n).slice(0,3);
   const nDays=days.length,att=activeMembers().map(m=>({m,n:days.filter(d=>S.records.some(r=>r.date===d&&r.players.includes(m.id))).length})).sort((a,b)=>b.n-a.n||a.m.name.localeCompare(b.m.name,'ko'));
   const MINP=3;
-  const pro=activeMembers().map(m=>{const n=st.part[m.id]||0,f=st.cntF[m.id]||0;return {m,n,f,p:n?1-f/n:0}}).filter(x=>x.n>=MINP).sort((a,b)=>b.p-a.p||b.n-a.n||a.m.name.localeCompare(b.m.name,'ko')).slice(0,5);
+  const pro=activeMembers().map(m=>{const n=st.part[m.id]||0,f=st.cntF[m.id]||0;return {m,n,f,p:n?Math.max(0,1-f/n):0}}).sort((a,b)=>b.p-a.p||b.n-a.n||a.m.name.localeCompare(b.m.name,'ko'));
   return `
   <div class="dg"><div class="d-hero"><div class="card hero">
     <div class="label">지금까지 모인 벌금</div>
@@ -1576,27 +1575,20 @@ VIEWS.dash=()=>{
       <div class="mini"><small>모인 횟수</small><b>${days.length}회</b></div>
       <div class="mini"><small>플레이한 판</small><b>${S.records.length}판</b></div>
     </div>
-    </div>
   </div></div>
   <div class="d-duo"><div class="duo">
     <div class="card"><h3>🎲 인기 게임</h3>${hot3.length?hot3.map((h,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${cover(h.g,'thumb')}<span class="nm">${esc(h.g.name)}</span><span class="amt">${h.plays}판</span></div></div>`).join(''):'<div class="empty">기록이 없어요</div>'}</div>
-    <div class="card"><h3>💤 쉬고 있는 게임</h3>${idle?`<div class="cr"><div class="top">${cover(idle.g,'thumb')}<span class="nm">${esc(idle.g.name)}</span><span class="amt">${idle.days?idle.days+'일째':'오늘'}</span></div></div>`:'<div class="empty">기록이 없어요</div>'}</div>
+    <div class="card"><h3>🤝 단짝 승률</h3>
+      ${pr.length?pr.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span><span class="nm"><b style="font-weight:700;white-space:normal;word-break:keep-all;line-height:1.25;display:block">${x.ids.map(id=>esc(mem(id).name)).join('·')}</b><small class="dim" style="display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis">${esc(game(x.gid).name)}</small></span><span class="amt" style="text-align:right">${Math.round(x.w/x.n*100)}%<small class="dim" style="display:block;font-size:11px;font-weight:500">${x.w}승 ${x.n}판</small></span></div><div class="bar"><i style="width:${Math.max(3,x.w/x.n*100)}%"></i></div></div>`).join(''):'<div class="empty">팀 게임 기록이 쌓이면 나와요</div>'}
+    </div>
   </div></div>
   <div class="d-four"><div class="split four">
     <div class="card"><h3>🙋 참석률</h3>
       ${nDays&&att.length?att.map((x,i)=>`<div class="cr tap" onclick="openStat('att','${x.m.id}')" role="button"><div class="top"><span class="no">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.n/nDays*100)}%</span></div><div class="bar"><i style="width:${x.n/nDays*100}%"></i></div></div>`).join(''):'<div class="empty">기록이 쌓이면 보여요</div>'}
     </div>
-    <div class="card"><h3>🔥 연속 참석</h3>
-      ${stk.length?stk.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${x.best}회</span></div><div class="bar"><i style="width:${x.best/stk[0].best*100}%"></i></div></div>`).join(''):'<div class="empty">2번 이상 연달아 나오면 보여요</div>'}
+        <div class="card"><h3>🏅 개인 승률</h3>
+      ${pro.length?pro.map((x,i)=>`<div class="cr tap" onclick="openStat('win','${x.m.id}')" role="button"><div class="top"><span class="no">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${x.n?Math.round(x.p*100)+'%':'-'}</span></div><div class="bar"><i style="width:${x.n?Math.max(3,x.p*100):0}%"></i></div></div>`).join(''):'<div class="empty">회원이 없어요</div>'}
     </div>
-    <div class="card"><h3>🏅 개인 승률</h3>
-      ${pro.length?pro.map((x,i)=>`<div class="cr tap" onclick="openStat('win','${x.m.id}')" role="button"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${Math.round(x.p*100)}%</span></div><div class="bar"><i style="width:${Math.max(3,x.p*100)}%"></i></div></div>`).join(''):`<div class="empty">${MINP}판 이상 참여하면 나와요</div>`}
-    </div>
-    <div class="card"><h3>🤝 단짝 승률</h3>
-      ${pr.length?pr.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span><span class="nm"><b style="font-weight:700;white-space:normal;word-break:keep-all;line-height:1.25;display:block">${x.ids.map(id=>esc(mem(id).name)).join('·')}</b><small class="dim" style="display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis">${esc(game(x.gid).name)}</small></span><span class="amt" style="text-align:right">${Math.round(x.w/x.n*100)}%<small class="dim" style="display:block;font-size:11px;font-weight:500">${x.w}승 ${x.n}판</small></span></div><div class="bar"><i style="width:${Math.max(3,x.w/x.n*100)}%"></i></div></div>`).join(''):'<div class="empty">팀 게임 기록이 쌓이면 나와요</div>'}
-    </div>
-  </div></div>
-  <div class="d-split"><div class="split">
     <div class="card"><h3>👥 회원별 벌금</h3>
       ${ranking.length?ranking.map((x,i)=>`<div class="cr tap" onclick="openStat('mf','${x.m.id}')" role="button"><div class="top"><span class="no ${i<3&&x.amt?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${won(x.amt)}</span></div><div class="bar pink"><i style="width:${x.amt/maxM*100}%"></i></div></div>`).join(''):'<div class="empty">회원이 없어요</div>'}
     </div>
@@ -1677,7 +1669,8 @@ function openStat(kind,id){
     const per=days.map(d=>{const rs=S.records.filter(r=>r.date===d);return {d,all:rs.length,mine:rs.filter(r=>r.players.includes(id)).length}});
     const come=per.filter(x=>x.mine).length;
     title=mem(id).name+' 님의 참석';lead='중간에 먼저 가도 참석으로 표시';
-    box=[['참석률',days.length?Math.round(come/days.length*100)+'%':'-'],['참석',come+'일'],['전체 모임',days.length+'일']];
+    let best=0,run=0;[...days].reverse().forEach((d,i)=>{if(per[days.length-1-i].mine){run++;if(run>best)best=run}else run=0});
+    box=[['참석률',days.length?Math.round(come/days.length*100)+'%':'-'],['참석',come+'일 / '+days.length+'일'],['연속 참석',best+'회']];
     rows=per.map(x=>stRow('',fmtDate(x.d),`${x.mine} / ${x.all}판 참여`,'',x.mine?'o':'x'));
   }else if(kind==='win'){
     const by={};R.filter(r=>r.players.includes(id)).forEach(r=>{const o=by[r.gameId]||(by[r.gameId]={n:0,f:0});o.n++;if(r.fines.some(f=>f.memberId===id))o.f++});
