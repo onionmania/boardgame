@@ -1312,6 +1312,7 @@ html[data-theme] #sheet:has(#sk) .fsx{top:auto}
 .onr .stepper button{width:20px;height:24px;font-size:14px;border-width:0!important;box-shadow:none!important}
 .onr .stepper span{min-width:14px;font-size:13px}
 @media(max-width:340px){.onr .top b{font-size:11px}}
+@media(min-width:1100px){.d-hero .hero{display:flex;flex-direction:column;justify-content:space-between;gap:18px}.d-hero .hero .big{margin:auto 0}}
 </style>
 </head>
 <body>
@@ -1636,7 +1637,7 @@ VIEWS.dash=()=>{
   S.records.forEach(r=>{const mo=months.find(x=>r.date.startsWith(x.k));if(mo)mo.v+=recTotal(r)});
   const maxMo=Math.max(1,...months.map(x=>x.v));
   const recent=[...S.records].sort((a,b)=>b.date.localeCompare(a.date)||b.at-a.at).slice(0,5);
-  const hot3=Object.entries(st.pg).filter(([id])=>game(id)).map(([id,v])=>({g:game(id),plays:v.plays})).filter(x=>x.plays>0).sort((a,b)=>b.plays-a.plays||a.g.name.localeCompare(b.g.name,'ko')).slice(0,3);
+  const hot5=Object.entries(st.pg).filter(([id])=>game(id)).map(([id,v])=>({g:game(id),plays:v.plays})).filter(x=>x.plays>0).sort((a,b)=>b.plays-a.plays||a.g.name.localeCompare(b.g.name,'ko')).slice(0,5);
   const nRec=S.records.length;
   /* 연속 참석: 기록이 있는 날(모임)을 기준으로, 연달아 나온 최대 횟수 */
   const days=[...new Set(S.records.map(r=>r.date))].sort();
@@ -1661,7 +1662,7 @@ VIEWS.dash=()=>{
     </div>
   </div></div>
   <div class="d-duo"><div class="duo">
-    <div class="card"><h3>🎲 인기 게임</h3>${hot3.length?hot3.map((h,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${cover(h.g,'thumb')}<span class="nm">${esc(h.g.name)}</span><span class="amt">${h.plays}판</span></div></div>`).join(''):'<div class="empty">기록이 없어요</div>'}</div>
+    <div class="card"><h3>🎲 인기 게임</h3>${hot5.length?hot5.map((h,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span>${cover(h.g,'thumb')}<span class="nm">${esc(h.g.name)}</span><span class="amt">${h.plays}판</span></div></div>`).join(''):'<div class="empty">기록이 없어요</div>'}</div>
     <div class="card"><h3>🤝 단짝 승률</h3>
       ${pr.length?pr.map((x,i)=>`<div class="cr"><div class="top"><span class="no ${i<3?'gold':''}">${i+1}</span><span class="nm"><b style="font-weight:700;white-space:normal;word-break:keep-all;line-height:1.25;display:block">${x.ids.map(id=>esc(mem(id).name)).join('·')}</b><small class="dim" style="display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis">${esc(game(x.gid).name)}</small></span><span class="amt" style="text-align:right">${Math.round(x.w/x.n*100)}%<small class="dim" style="display:block;font-size:11px;font-weight:500">${x.w}승 ${x.n}판</small></span></div><div class="bar"><i style="width:${Math.max(3,x.w/x.n*100)}%"></i></div></div>`).join(''):'<div class="empty">팀 게임 기록이 쌓이면 나와요</div>'}
     </div>
@@ -1677,7 +1678,7 @@ VIEWS.dash=()=>{
       ${ranking.length?ranking.map((x,i)=>`<div class="cr tap" onclick="openStat('mf','${x.m.id}')" role="button"><div class="top"><span class="no ${i<3&&x.amt?'gold':''}">${i+1}</span>${av(x.m,1)}<span class="nm">${esc(x.m.name)}</span><span class="amt">${won(x.amt)}</span></div><div class="bar pink"><i style="width:${x.amt/maxM*100}%"></i></div></div>`).join(''):'<div class="empty">회원이 없어요</div>'}
     </div>
     <div class="card"><h3>🎮 게임별 벌금</h3>
-      ${gr.length?gr.slice(0,ranking.length||8).map((x,i)=>`<div class="cr tap" onclick="openStat('gf','${x.g.id}')" role="button"><div class="top"><span class="no ${i<3&&x.fine?'gold':''}">${i+1}</span>${cover(x.g,'thumb')}<span class="nm">${esc(x.g.name)}</span><span class="amt">${won(x.fine)}</span></div><div class="bar"><i style="width:${x.fine/maxG*100}%"></i></div></div>`).join(''):'<div class="empty">기록이 없어요</div>'}
+      ${gr.length?gr.slice(0,ranking.length||8).map((x,i)=>`<div class="cr tap" onclick="openStat('gf','${x.g.id}')" role="button"><div class="top"><span class="no ${i<3&&x.fine?'gold':''}">${i+1}</span>${cover(x.g,'thumb')}<span class="nm">${esc(x.g.name)}</span><span class="amt">${won(x.fine)}</span></div><div class="bar pink"><i style="width:${x.fine/maxG*100}%"></i></div></div>`).join(''):'<div class="empty">기록이 없어요</div>'}
     </div>
   </div></div>
   <div class="d-side"><div class="card"><h3>📅 월별 적립</h3>
